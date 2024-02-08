@@ -3,36 +3,43 @@ const params = new URLSearchParams(queryString);
 
 const couchId = params.get("id");
 
-// function to enable search by id//
-
 const fetchCouch = async () => {
-  let response;
-
   try {
-    response = await fetch(`http://localhost:3000/api/products/${couchId}`);
-    const couchData = await response.json();
-
+    const response = await fetch(
+      `http://localhost:3000/api/products/${couchId}`
+    );
     if (!response.ok) {
-      throw new Error("Failed to retrieve selected item");
+      throw new Error("Failed retrieve fetched server data");
     }
-
-    console.log(couchData);
+    const couchData = await response.json();
+    updateUi(couchData);
   } catch (error) {
-    console.error(error);
+    console.error("Failure to retrieve server data", error);
   }
 };
 
-//
+// modifying the Dom function to display each product
 
 const updateUi = (couchData) => {
-  const couchImg = document.createElement("img");
-  couchImg.setAttribute("src", couchData.imageUrl);
+  try {
+    const couchImg = document.createElement("img");
+    couchImg.setAttribute("src", couchData.imageUrl);
+    const imgContainer = document.querySelector(".item__img");
+    imgContainer.appendChild(couchImg);
 
-  const imgContainer = document.querySelector(".item__img");
-  imgContainer.appendChild(couchImg);
+    const couchTitle = document.getElementById("title");
+    const couchPrice = document.getElementById("price");
+    const couchColour = document.getElementById("colors");
+    const couchQuantity = document.getElementById("quantity");
 
-  document.getElementById("title").innerHTML = couchData.name;
-  document.getElementById("price").innerHTML = couchData.price;
-  document.getElementById("colors").innerHTML = couchData.colours;
-  document.getElementById("quantity").innerHTML = couchData.quantity;
+    // Populate attributes
+    couchTitle.textContent = couchData.title;
+    couchPrice.textContent = `Price: $${couchData.price}`;
+    couchColour.textContent = `Colors: ${couchData.colors.join(", ")}`;
+    couchQuantity.textContent = `Quantity: ${couchData.quantity}`;
+  } catch (error) {
+    console.error("Error retrieving selected product", error);
+  }
 };
+
+fetchCouch();
