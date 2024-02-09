@@ -1,6 +1,5 @@
 const queryString = window.location.search;
 const params = new URLSearchParams(queryString);
-
 const couchId = params.get("id");
 
 const fetchCouch = async () => {
@@ -9,12 +8,12 @@ const fetchCouch = async () => {
       `http://localhost:3000/api/products/${couchId}`
     );
     if (!response.ok) {
-      throw new Error("Failed retrieve fetched server data");
+      throw new Error("Failed to retrieve server data");
     }
     const couchData = await response.json();
     updateUi(couchData);
   } catch (error) {
-    console.error("Failure to retrieve server data", error);
+    console.error("Failed to retrieve server data:", error);
   }
 };
 
@@ -42,4 +41,8 @@ const updateUi = (couchData) => {
   }
 };
 
+//calling fetch function
+
 fetchCouch();
+
+//function to display different colours
