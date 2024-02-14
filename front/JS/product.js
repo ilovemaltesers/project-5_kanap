@@ -30,12 +30,12 @@ function updateProductPage(couchData) {
   couchImg.setAttribute("src", couchData.imageurl);
   couchImg.setAttribute("alt", couchData.imagealt);
 
-  const couchTxt = document.getElementById("title");
-  couchTxt.innerText = couchData.title;
+  const couchTitle = document.getElementById("title");
+  couchTitle.innerText = couchData.title;
 
-  const couchPriceTxt = document.getElementById("price");
-  couchPriceTxt.innerText = couchData.price;
+  const couchPrice = document.getElementById("price");
+  couchPrice.innerText = couchData.price;
 
-  const couchDescriptionTxt = document.getElementById("description");
-  couchDescriptionTxt.innerText = couchData.description;
+  const couchDescription = document.getElementById("description");
+  couchDescription.innerText = couchData.description;
 }
