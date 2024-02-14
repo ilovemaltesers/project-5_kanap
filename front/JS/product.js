@@ -1,6 +1,7 @@
 const queryString = window.location.search;
 const params = new URLSearchParams(queryString);
 const couchId = params.get("id");
+const productLink = `http://localhost:3000/api/products/${couchId}`;
 
 if (couchId) {
   fetchCouch();
@@ -10,9 +11,7 @@ if (couchId) {
 
 async function fetchCouch() {
   try {
-    const response = await fetch(
-      `http://localhost:3000/api/products/${couchId}`
-    );
+    const response = await fetch(productLink);
     if (!response.ok) {
       throw new Error("Failed to retrieve server data");
     }
