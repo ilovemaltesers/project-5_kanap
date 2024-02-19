@@ -22,22 +22,20 @@ if (keysValues) {
     console.error("No id parameter found in the URL");
     // Handle the case where 'id' parameter is missing (e.g., redirect to an error page)
   }
-} else {
   console.error("No URL parameters found");
   // Handle the case where no URL parameters are present (e.g., redirect to an error page)
 }
 
 function updateProductPage(product) {
-  const productImg = document.createElement("img");
-  document.querySelector(".item__img").appendChild(productImg);
-  productImg.setAttribute("src", product.imageurl);
-  productImg.setAttribute("alt", product.imagealt);
+  const productImg = document.querySelector(".item__img");
+  productImg.innerHTML = `<img src="${product.imageUrl}" alt="${product.altTxt}">`;
 
   const productTitle = document.getElementById("title");
-  productTitle.innerText = product.title;
+  productTitle.innerText = `${product.title}`;
+
   const productPrice = document.getElementById("price");
-  productPrice.innerText = product.price;
+  productPrice.innerText = `${product.price}`;
 
   const productDescription = document.getElementById("description");
-  productDescription.innerText = product.description;
+  productDescription.innerText = `${product.description}`;
 }
