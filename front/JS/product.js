@@ -1,23 +1,30 @@
 const keysValues = window.location.search;
-console.log("key and values", keysValues);
-const urlParams = new URLSearchParams(keysValues);
-const id = urlParams.get("id");
 
-if (id) {
-  const productLink = `http://localhost:3000/api/products/${id}`;
+if (keysValues) {
+  const urlParams = new URLSearchParams(keysValues);
+  const id = urlParams.get("id");
 
-  fetch(productLink)
-    .then((data) => {
-      return data.json();
-    })
-    .then((product) => {
-      updateProductPage(product);
-    })
-    .catch((error) => {
-      console.error("Error fetching product:", error);
-    });
+  if (id) {
+    const productLink = `http://localhost:3000/api/products/${id}`;
+
+    fetch(productLink)
+      .then((data) => {
+        return data.json();
+      })
+      .then((product) => {
+        updateProductPage(product);
+      })
+      .catch((error) => {
+        console.error("Error fetching product:", error);
+        // Handle error (e.g., show an error message to the user)
+      });
+  } else {
+    console.error("No id parameter found in the URL");
+    // Handle the case where 'id' parameter is missing (e.g., redirect to an error page)
+  }
 } else {
-  console.error("No id parameter found in the URL");
+  console.error("No URL parameters found");
+  // Handle the case where no URL parameters are present (e.g., redirect to an error page)
 }
 
 function updateProductPage(product) {
@@ -34,14 +41,3 @@ function updateProductPage(product) {
   const productDescription = document.getElementById("description");
   productDescription.innerText = product.description;
 }
-
-// function to display different colours
-// function populateColourOptions(couchId) {
-//   const product = products.find((prod) => prod._id === couchId); // Assuming `products` is defined elsewhere
-//   const colourDropdown = document.getElementById("colors");
-//   colourDropdown.innerHTML = "";
-//   const defaultOption = document.createElement("option");
-//   defaultOption.text = "Please select a colour";
-//   defaultOption.value = "";
-//   colourDropdown.add(defaultOption);
-// }
