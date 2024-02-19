@@ -2,17 +2,23 @@ const keysValues = window.location.search;
 console.log("key and values", keysValues);
 const urlParams = new URLSearchParams(keysValues);
 const id = urlParams.get("id");
-console.log(id);
 
-const productLink = `http://localhost:3000/api/products/${id}`;
+if (id) {
+  const productLink = `http://localhost:3000/api/products/${id}`;
 
-fetch(productLink)
-  .then((data) => {
-    return data.json();
-  })
-  .then((product) => {
-    updateProductPage(product);
-  });
+  fetch(productLink)
+    .then((data) => {
+      return data.json();
+    })
+    .then((product) => {
+      updateProductPage(product);
+    })
+    .catch((error) => {
+      console.error("Error fetching product:", error);
+    });
+} else {
+  console.error("No id parameter found in the URL");
+}
 
 function updateProductPage(product) {
   const productImg = document.createElement("img");
