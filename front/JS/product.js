@@ -1,55 +1,41 @@
-// retrieves the query string portion of the current URL
-const urlSearch = window.location.search;
+const keysValues = window.location.search;
+console.log("key and values", keysValues);
+const urlParams = new URLSearchParams(keysValues);
+const id = urlParams.get("id");
+console.log(id);
 
-// creates a new URLSearchParams object
-const urlParams = new URLSearchParams(urlSearch);
+const productLink = `http://localhost:3000/api/products/${id}`;
 
-// retrieves the value of the parameter "id" from the query string
-const couchId = urlParams.get("id");
+fetch(productLink)
+  .then((data) => {
+    return data.json();
+  })
+  .then((product) => {
+    updateProductPage(product);
+  });
 
-// constructs a URL for a product endpoint
-const productLink = `http://localhost:3000/api/products/${couchId}`;
+function updateProductPage(product) {
+  const productImg = document.createElement("img");
+  document.querySelector(".item__img").appendChild(productImg);
+  productImg.setAttribute("src", product.imageurl);
+  productImg.setAttribute("alt", product.imagealt);
 
-// to test if issue with couchId. (problem solving. will remove later)
-if (couchId) {
-  fetchCouch();
-} else {
-  console.error("No couch ID found in the URL");
+  const productTitle = document.getElementById("title");
+  productTitle.innerText = product.title;
+  const productPrice = document.getElementById("price");
+  productPrice.innerText = product.price;
+
+  const productDescription = document.getElementById("description");
+  productDescription.innerText = product.description;
 }
 
-/*asynchronous function to fetch data from the server including
-errors if fail. Function asks for the response in json stored in a 
-constant called couchData. The function also initialises the updateproductpage funtion
-with a catch error included */
-
-async function fetchCouch() {
-  try {
-    const response = await fetch(productLink);
-    if (!response.ok) {
-      throw new Error("Failed to retrieve server data");
-    }
-    const couchData = await response.json();
-
-    updateProductPage(couchData);
-  } catch (error) {
-    console.error("Failed to update requested data:", error);
-  }
-}
-
-// function retrieving elements from the Dom in order to display content
-
-function updateProductPage(couchData) {
-  const couchImg = document.createElement("img");
-  document.querySelector(".item__img").appendChild(couchImg);
-  couchImg.setAttribute("src", couchData.imageurl);
-  couchImg.setAttribute("alt", couchData.imagealt);
-
-  const couchTitle = document.getElementById("title");
-  couchTitle.innerText = couchData.title;
-
-  const couchPrice = document.getElementById("price");
-  couchPrice.innerText = couchData.price;
-
-  const couchDescription = document.getElementById("description");
-  couchDescription.innerText = couchData.description;
-}
+// function to display different colours
+// function populateColourOptions(couchId) {
+//   const product = products.find((prod) => prod._id === couchId); // Assuming `products` is defined elsewhere
+//   const colourDropdown = document.getElementById("colors");
+//   colourDropdown.innerHTML = "";
+//   const defaultOption = document.createElement("option");
+//   defaultOption.text = "Please select a colour";
+//   defaultOption.value = "";
+//   colourDropdown.add(defaultOption);
+// }
