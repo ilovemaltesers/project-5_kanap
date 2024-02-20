@@ -31,11 +31,27 @@ function updateProductPage(product) {
   productImg.innerHTML = `<img src="${product.imageUrl}" alt="${product.altTxt}">`;
 
   const productTitle = document.getElementById("title");
-  productTitle.innerText = `${product.title}`;
+  productTitle.innerText += product.title;
 
   const productPrice = document.getElementById("price");
-  productPrice.innerText = `${product.price}`;
+  productPrice.innerText += product.price;
 
   const productDescription = document.getElementById("description");
-  productDescription.innerText = `${product.description}`;
+  productDescription.innerText += product.description;
+
+  const productColors = document.getElementById("colors");
+  product.colors.forEach((color) => {
+    const option = document.createElement("option");
+    option.value = color;
+    option.textContent = color;
+    productColors.appendChild(option);
+  });
 }
+
+// Add to cart
+
+// const addToCartButton = document.getElementById("addToCart")
+
+// addToCartButton.addEventListener('click')
+
+// }
