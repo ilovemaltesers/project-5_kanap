@@ -1,33 +1,17 @@
-// retrieve query string portion of URL
-const keysValues = window.location.search;
+// Get the product id from the URL
+const urlParams = new URLSearchParams(window.location.search);
 
-if (keysValues) {
-  // create new search params object
-  const urlParams = new URLSearchParams(keysValues);
-  // retrieve value of query param id from url params object
-  const id = urlParams.get("id");
+const id = urlParams.get("id");
+// function to fetch product details from the API
 
-  if (id) {
-    // contruct a url for api endpoint
-    const productLink = `http://localhost:3000/api/products/${id}`;
-
-    fetch(productLink)
-      .then((data) => {
-        return data.json();
-      })
-      .then((product) => {
-        updateProductPage(product);
-      })
-      .catch((error) => {
-        console.error("Error fetching product:", error);
-      });
-  } else {
-    console.error("No id parameter found in the URL");
-    // Handle the case where 'id' parameter is missing
-  }
-  console.error("No URL parameters found");
-  // Handle the case where no URL parameters are present
-}
+fetch(`http://localhost:3000/api/products/${id}`)
+  .then((response) => response.json())
+  .then((product) => {
+    updateProductPage(product);
+  })
+  .catch((error) => {
+    console.error("Error:", error);
+  });
 
 // function to populate page with product and its  attributes
 
@@ -35,8 +19,8 @@ function updateProductPage(product) {
   const productImg = document.querySelector(".item__img");
   productImg.innerHTML = `<img src="${product.imageUrl}" alt="${product.altTxt}">`;
 
-  const productTitle = document.getElementById("title");
-  productTitle.innerText = product.title;
+  const productName = document.getElementById("title");
+  productName.innerText = product.name;
 
   const productPrice = document.getElementById("price");
   productPrice.innerText = product.price;
@@ -45,6 +29,7 @@ function updateProductPage(product) {
   productDescription.innerText = product.description;
 
   const productColors = document.getElementById("colors");
+
   product.colors.forEach((color) => {
     const option = document.createElement("option");
     option.value = color;
@@ -52,7 +37,6 @@ function updateProductPage(product) {
     productColors.appendChild(option);
   });
 }
-
 // Add to cart
 
 const AddToCartButton = document.getElementById("addToCart");
