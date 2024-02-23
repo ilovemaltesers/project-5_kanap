@@ -13,7 +13,7 @@ fetch(`http://localhost:3000/api/products/${id}`)
     console.error("Error:", error);
   });
 
-// function to populate page with product and its  attributes
+// function to populate page with product and its attributes
 
 function updateProductPage(product) {
   const productImg = document.querySelector(".item__img");
@@ -43,6 +43,8 @@ const AddToCartButton = document.getElementById("addToCart");
 
 AddToCartButton.addEventListener("click", () => {
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  // constants to get the selected color and quantity
   const selectedColor = document.getElementById("colors").value;
   const selectedQuantity = parseInt(document.getElementById("quantity").value);
 
@@ -73,5 +75,13 @@ const productQuantity = document.getElementById("quantity");
 productQuantity.addEventListener("change", () => {
   if (productQuantity.value <= 0 || isNaN(productQuantity.value)) {
     productQuantity.value = 1;
+  }
+});
+
+// quantity selected may not exceed 100 or an error message
+productQuantity.addEventListener("change", () => {
+  if (productQuantity.value > 100) {
+    alert("Maximum quanity of items is 100");
+    productQuantity.value = 100;
   }
 });
