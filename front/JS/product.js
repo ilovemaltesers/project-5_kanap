@@ -83,3 +83,11 @@ AddToCartButton.addEventListener("click", () => {
   localStorage.setItem("cart", JSON.stringify(cart));
   alert("Item Added to Cart");
 });
+
+// product quantity selected cannot be 0 or negetive  and should be a number
+const productQuantity = document.getElementById("quantity");
+productQuantity.addEventListener("change", () => {
+  if (productQuantity.value <= 0 || isNaN(productQuantity.value)) {
+    productQuantity.value = 1;
+  }
+});
