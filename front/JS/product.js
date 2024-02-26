@@ -85,3 +85,13 @@ productQuantity.addEventListener("change", () => {
     productQuantity.value = 100;
   }
 });
+
+// function to prevent adding to cart if not color is selected
+const colorSelected = document.getElementById("colors");
+colorSelected.addEventListener("change", () => {
+  if (colorSelected.value === "") {
+    AddToCartButton.disabled = true;
+  } else {
+    AddToCartButton.disabled = false;
+  }
+});
