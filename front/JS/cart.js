@@ -12,3 +12,25 @@ if (cart.length === 0) {
 else {
   console.log("Cart items:", cart);
 }
+
+// display items dynamically in the cart
+const cartItems = document.getElementById("cart__items");
+cart.forEach((product) => {
+  const productDiv = document.createElement("div");
+  productDiv.innerHTML = `
+    <div class="cart-item">
+      <div class="cart-item-details">
+        <img src="${product.image}" alt="${product.name}" />
+        <div>
+          <h3>${product.name}</h3>
+          <p>Color: ${product.selectedColor}</p>
+          <p>Quantity: ${product.selectedQuantity}</p>
+        </div>
+      </div>
+      <div class="cart-item-price">
+        <p>Price: $${product.price}</p>
+      </div>
+    </div>
+  `;
+  cartItems.appendChild(productDiv);
+});
