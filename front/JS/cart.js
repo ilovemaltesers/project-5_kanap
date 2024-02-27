@@ -14,7 +14,7 @@ else {
 }
 
 // display items dynamically in the cart
-const cartItems = document.getElementById("cart__items");
+const cartItems = document.getElementById("cart__tems");
 cart.forEach((product) => {
   const productDiv = document.createElement("div");
   productDiv.innerHTML = `

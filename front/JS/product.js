@@ -37,64 +37,49 @@ function updateProductPage(product) {
     productColors.appendChild(option);
   });
 }
-// Add to cart
 
-const addToCartButton = document.getElementById("addToCart");
+// function to add product to cart
 
-addToCartButton.addEventListener("click", () => {
-  const cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-  // constants to get the selected color and quantity
-  const selectedColor = document.getElementById("colors").value;
-  const selectedQuantity = parseInt(document.getElementById("quantity").value);
-
-  // Create a new product object in the cart
-  const newProduct = { id, selectedColor, selectedQuantity };
-
-  // Find existing product in the cart based on selected color
-  const existingProduct = cart.find(
-    (product) =>
-      product.selectedColor === newProduct.selectedColor &&
-      product.id === newProduct.id
-  );
-
-  if (existingProduct) {
-    // If existing product is found, update the quantity
-    existingProduct.selectedQuantity += newProduct.selectedQuantity;
-  } else {
-    // If no existing product is found, add the new product to the cart
-    cart.push(newProduct);
-  }
-  // Update the local storage with the modified cart
-  localStorage.setItem("cart", JSON.stringify(cart));
-  alert("Item Added to Cart");
-});
-
-// product quantity selected cannot be 0 or negetive  and should be a number
-const productQuantity = document.getElementById("quantity");
-productQuantity.addEventListener("change", () => {
-  if (productQuantity.value <= 0 || isNaN(productQuantity.value)) {
-    productQuantity.value = 1;
-  }
-});
-
-// quantity selected may not exceed 100 or an error message
-productQuantity.addEventListener("change", () => {
-  if (productQuantity.value > 100) {
-    alert("Maximum quanity of items is 100");
-    productQuantity.value = 100;
-  }
-});
-
-//function to prevent addToCartButton from being clicked if no color option is selected from the dropdown
-document.getElementById("colors").addEventListener("change", () => {
-  const selectedColor = document.getElementById("colors").value;
-  console.log("Selected Color:", selectedColor);
+window.onload = function () {
+  const colorInput = document.getElementById("colors");
+  const quantityInput = document.getElementById("quantity");
   const addToCartButton = document.getElementById("addToCart");
-  if (selectedColor === "") {
-    addToCartButton.disabled = true;
-    console.error("Error: No color selected");
-  } else {
+
+  // Initially disable the button
+  addToCartButton.disabled = true;
+
+  function checkConditions() {
+    // Check colour selection
+    const selectedColor = colorInput.value;
+    if (selectedColor === "") {
+      alert("Please select a colour");
+      return;
+    }
+
+    // Check quantity
+    const selectedQuantity = Number(quantityInput.value);
+    if (
+      isNaN(selectedQuantity) ||
+      selectedQuantity < 1 ||
+      selectedQuantity > 100
+    ) {
+      alert("Quantity needs to be between 1 and 100");
+      return;
+    }
+
+    // If all conditions are met, enable the button
     addToCartButton.disabled = false;
   }
-});
+
+  // Check conditions whenever the color or quantity changes
+  colorInput.onchange = checkConditions;
+  quantityInput.onchange = checkConditions;
+
+  // Add onclick event to the "Add to Cart" button
+  addToCartButton.onclick = function () {
+    if (!addToCartButton.disabled) {
+      addToCartButton.innerText = "Added to cart";
+      alert("Your selected items have been added to cart");
+    }
+  };
+};
