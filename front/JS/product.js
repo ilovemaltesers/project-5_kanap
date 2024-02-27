@@ -86,13 +86,13 @@ productQuantity.addEventListener("change", () => {
   }
 });
 
-// function to prevent adding to cart if no color is selected
-const selectedColor = document.getElementById("colors").value;
-selectedColor.addEventListener("change", () => {
+//function to prevent AddToCartButton from being clicked if no color option is selected from the dropdown
+document.getElementById("colors").addEventListener("change", () => {
+  const selectedColor = document.getElementById("colors").value;
+  const addToCartButton = document.getElementById("addToCart");
   if (selectedColor === "") {
-    AddToCartButton.disabled = true;
-    console.error("Please select a colour before adding to cart!");
+    addToCartButton.disabled = true;
   } else {
-    AddToCartButton.disabled = false;
+    addToCartButton.disabled = false;
   }
 });
