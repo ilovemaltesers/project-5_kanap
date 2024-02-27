@@ -39,9 +39,9 @@ function updateProductPage(product) {
 }
 // Add to cart
 
-const AddToCartButton = document.getElementById("addToCart");
+const addToCartButton = document.getElementById("addToCart");
 
-AddToCartButton.addEventListener("click", () => {
+addToCartButton.addEventListener("click", () => {
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
   // constants to get the selected color and quantity
@@ -86,12 +86,14 @@ productQuantity.addEventListener("change", () => {
   }
 });
 
-//function to prevent AddToCartButton from being clicked if no color option is selected from the dropdown
+//function to prevent addToCartButton from being clicked if no color option is selected from the dropdown
 document.getElementById("colors").addEventListener("change", () => {
   const selectedColor = document.getElementById("colors").value;
+  console.log("Selected Color:", selectedColor);
   const addToCartButton = document.getElementById("addToCart");
   if (selectedColor === "") {
     addToCartButton.disabled = true;
+    console.error("Error: No color selected");
   } else {
     addToCartButton.disabled = false;
   }
