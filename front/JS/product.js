@@ -41,7 +41,7 @@ function updateCart(cartItem) {
   // Get the current cart from local storage
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-  // Find the index of the product in the cart that has the same id and colour
+  // See if there is already an existing item in the cart w/ the same id and colour
   let index = cart.findIndex(
     (item) => item.id === cartItem.id && item.color === cartItem.color
   );
@@ -75,7 +75,7 @@ window.onload = function () {
       return;
     }
 
-    // Check quantity
+    // Check quantity is between 1 and 100 and in fact a number
     const selectedQuantity = Number(quantityInput.value);
     if (
       isNaN(selectedQuantity) ||
@@ -90,7 +90,7 @@ window.onload = function () {
     addToCartButton.disabled = false;
   }
 
-  // Check conditions whenever the color or quantity changes
+  // Check conditions whenever the colour or quantity changes
   colorInput.onchange = checkConditions;
   quantityInput.onchange = checkConditions;
 
@@ -99,7 +99,7 @@ window.onload = function () {
       addToCartButton.innerText = "Added to cart";
       alert("Your selected items have been added to cart");
 
-      // Get the selected color and quantity
+      // Get the selected colour and quantity
       const selectedColor = colorInput.value;
       const selectedQuantity = Number(quantityInput.value);
 
@@ -110,7 +110,7 @@ window.onload = function () {
         quantity: selectedQuantity,
       };
 
-      // Update the cart
+      // Call to update the cart
       updateCart(cartItem);
     }
   };
