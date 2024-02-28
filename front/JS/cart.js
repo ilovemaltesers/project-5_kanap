@@ -14,12 +14,12 @@ else {
 }
 
 // display items dynamically in the cart
-const cartItems = document.getElementById("cart__tems");
+const cartItems = document.getElementById("cart__items");
 cart.forEach((product) => {
   const productDiv = document.createElement("div");
   productDiv.innerHTML = `
-    <div class="cart-item">
-      <div class="cart-item-details">
+    <div class="cart-items">
+      <div class="cart-items-details">
         <img src="${product.image}" alt="${product.name}" />
         <div>
           <h3>${product.name}</h3>
