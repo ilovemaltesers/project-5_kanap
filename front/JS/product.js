@@ -13,6 +13,7 @@ fetch(`http://localhost:3000/api/products/${id}`)
   });
 
 // Function to populate page with product and its attributes
+
 function updateProductPage(product) {
   const productImg = document.querySelector(".item__img");
   productImg.innerHTML = `<img src="${product.imageUrl}" alt="${product.altTxt}">`;

@@ -1,36 +1,41 @@
-// retrieve cart from local storage and log it to the console
+const productsInLocalStorage = JSON.parse(localStorage.getItem("cart"));
 
-const cart = JSON.parse(localStorage.getItem("cart")) || [];
-console.log(cart);
+function updateCartPage(productsInLocalStorage) {
+  for (let i = 0; i < productsInLocalStorage.length; i++) {
+    const product = productsInLocalStorage[i];
 
-//if cart is empty then display a message to console and redirect to the homepage
-if (cart.length === 0) {
-  console.log("Cart is empty");
-  window.location.href = "/";
-}
-//if cart is not empty then display the cart items to the console
-else {
-  console.log("Cart items:", cart);
-}
+    // for each product in the local storage, create a new article in the cart
 
-// display items dynamically in the cart
-const cartItems = document.getElementById("cart__items");
-cart.forEach((product) => {
-  const productDiv = document.createElement("div");
-  productDiv.innerHTML = `
-    <div class="cart-items">
-      <div class="cart-items-details">
-        <img src="${product.image}" alt="${product.name}" />
-        <div>
-          <h3>${product.name}</h3>
-          <p>Color: ${product.selectedColor}</p>
-          <p>Quantity: ${product.selectedQuantity}</p>
+    const section = document.getElementById("cart__items");
+    const article = document.createElement("article");
+
+    article.classList.add("cart__item");
+    article.setAttribute("data-id", product.id);
+    article.setAttribute("data-color", product.selectedColor);
+    article.setAttribute("data-price", product.price);
+    article.innerHTML = `
+      <div class="cart__item__img">
+        <img src="${product.imageUrl}" alt="${product.altTxt}">
+      </div>
+      <div class="cart__item__content">
+        <div class="cart__item__content__titlePrice">
+          <h2>${product.name}</h2>
+          <p>${product.selectedColor}</p>
+          <p>${product.price} €</p>
+        </div>
+        <div class="cart__item__content__settings">
+          <div class="cart__item__content__settings__quantity">
+            <p>Qté : </p>
+            <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${product.quantity}">
+          </div>
+          <div class="cart__item__content__settings__delete">
+            <p class="deleteItem">Supprimer</p>
+          </div>
         </div>
       </div>
-      <div class="cart-item-price">
-        <p>Price: $${product.price}</p>
-      </div>
-    </div>
-  `;
-  cartItems.appendChild(productDiv);
-});
+    `;
+    section.appendChild(article);
+  }
+}
+
+updateCartPage(productsInLocalStorage);
