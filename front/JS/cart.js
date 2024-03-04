@@ -1,47 +1,44 @@
 const productsInLocalStorage = JSON.parse(localStorage.getItem("cart"));
 
-// Function to get one product from the API if located in localStorage
-const getProduct = async (id) => {
-  const response = await fetch(`http://localhost:3000/api/products/${id}`);
-  return response.json();
-};
-
-if (productsInLocalStorage) {
-  productsInLocalStorage.forEach((product) => {
-    getProduct(product._id).then((product) => {
-      displayProductInCart(product);
-    });
-  });
+for (let i = 0; i < productsInLocalStorage.length; i++) {
+  const product = productsInLocalStorage[i];
+  console.log(product);
+  // Now you can use oneProduct for whatever you need
 }
 
-// for each item in the cart we display using the html from cart.html page
-const displayProductInCart = (product) => {
-  const cartItems = document.getElementById("cart__items");
-  const item = document.createElement("article");
-  item.classList.add("cart__item");
-  item.dataset.id = product._id;
-  item.innerHTML = `
-    <div class="cart__item__img">
-      <img src="${product.imageUrl}" alt="${product.altTxt}">
-    </div>
-    <div class="cart__item__content">
-      <div class="cart__item
-      _content__titlePrice">
-        <h2>${product.name}</h2>
-        <p>${product.price} €</p>
-      </div>
-      <div class="cart__item__content__settings">
-        <div class="cart__item
-        _content__settings__quantity">
-          <p>Qté : </p>
-          <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="1">
-        </div>
-        <div class="cart__item__content__settings__delete">
-          <p class="deleteItem
-          ">Supprimer</p>
-        </div>
-      </div>
-    </div>
-  `;
-  cartItems.appendChild(item);
-};
+productsInLocalStorage.forEach((product) => {
+  const section = document.createElement("cart__items");
+  const article = document.createElement("article");
+  article.classList.add("cart__item");
+  article.setAttribute("data-id", product._id);
+  article.setAttribute("data-price", product.price);
+  section.appendChild(article);
+
+  const imgDiv = document.createElement("div");
+  imgDiv.classList.add("cart__item__img");
+  const img = document.createElement("img");
+  img.setAttribute("src", product.imageUrl);
+  img.setAttribute("alt", product.altTxt);
+  imgDiv.appendChild(img);
+  article.appendChild(imgDiv);
+
+  const cartItemContent = document.createElement("div");
+  cartItemContent.classList.add("cart__item__content");
+  article.appendChild(cartItemContent);
+
+  const cartDescription = document.createElement("div");
+  cartDescription.classList.add("cart__item__content__description");
+  cartItemContent.appendChild(cartDescription);
+
+  const productName = document.createElement("h2");
+  productName.innerHTML = product.name;
+  cartDescription.appendChild(productName);
+
+  const productColour = document.createElement("p");
+  productColour.innerHTML = product.colors;
+  cartDescription.appendChild(productColour);
+
+  const productPrice = document.createElement("p");
+  productPrice.innerHTML = product.price;
+  cartDescription.appendChild(productPrice);
+});
