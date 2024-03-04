@@ -17,8 +17,8 @@ productsInLocalStorage.forEach((product) => {
   const imgDiv = document.createElement("div");
   imgDiv.classList.add("cart__item__img");
   const img = document.createElement("img");
-  img.setAttribute("src", product.imageUrl);
-  img.setAttribute("alt", product.altTxt);
+  img.setAttribute("src", products.imageUrl);
+  img.setAttribute("alt", products.altTxt);
   imgDiv.appendChild(img);
   article.appendChild(imgDiv);
 
