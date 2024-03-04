@@ -10,15 +10,15 @@ productsInLocalStorage.forEach((product) => {
   const section = document.createElement("cart__items");
   const article = document.createElement("article");
   article.classList.add("cart__item");
-  article.setAttribute("data-id", products._id);
-  article.setAttribute("data-price", products.price);
+  article.setAttribute("data-id", product._id);
+  article.setAttribute("data-price", product.price);
   section.appendChild(article);
 
   const imgDiv = document.createElement("div");
   imgDiv.classList.add("cart__item__img");
   const img = document.createElement("img");
-  img.setAttribute("src", products.imageUrl);
-  img.setAttribute("alt", products.altTxt);
+  img.setAttribute("src", product.imageUrl);
+  img.setAttribute("alt", product.altTxt);
   imgDiv.appendChild(img);
   article.appendChild(imgDiv);
 
