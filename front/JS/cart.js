@@ -36,7 +36,7 @@ function displayProducts(product) {
   const article = document.createElement("article");
   article.classList.add("cart__item");
   article.setAttribute("data-id", product.id);
-  article.setAttribute("data-price", product.price);
+  article.setAttribute("data-color", product.color);
   section.appendChild(article);
 
   const imgDiv = document.createElement("div");
@@ -64,6 +64,6 @@ function displayProducts(product) {
   cartDescription.appendChild(productColour);
 
   const productPrice = document.createElement("p");
-  productPrice.innerHTML = product.price;
+  productPrice.innerHTML = "€" + product.price;
   cartDescription.appendChild(productPrice);
 }
