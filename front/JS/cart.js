@@ -2,18 +2,11 @@ let productsInLocalStorage = localStorage.getItem("cart");
 try {
   if (productsInLocalStorage) {
     productsInLocalStorage = JSON.parse(productsInLocalStorage);
+    console.log("Products from local storage:", productsInLocalStorage);
   }
 } catch (error) {
   console.error("Error parsing products from local storage:", error);
   productsInLocalStorage = null;
-}
-
-if (productsInLocalStorage) {
-  for (let i = 0; i < productsInLocalStorage.length; i++) {
-    const product = productsInLocalStorage[i];
-    console.log(product);
-    // Now can use product for whatever you need
-  }
 }
 
 fetch("http://localhost:3000/api/products")
@@ -24,7 +17,7 @@ fetch("http://localhost:3000/api/products")
     return response.json();
   })
   .then((products) => {
-    console.log(products);
+    console.log("Products from API:", products);
   })
   .catch((error) => {
     console.error("Error fetching products:", error);
