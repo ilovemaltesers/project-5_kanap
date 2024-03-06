@@ -19,6 +19,11 @@ if (productsInLocalStorage) {
         return response.json();
       })
       .then((productData) => {
+        // Filter productData.colors to only include the color from localStorage
+        productData.colors = productData.colors.filter(
+          (color) => color === product.color
+        );
+        productData.quantity = product.quantity;
         displayProducts(productData); // Call displayProducts with fetched product data
       })
       .catch((error) => {
