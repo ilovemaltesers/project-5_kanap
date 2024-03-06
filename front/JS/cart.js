@@ -87,4 +87,13 @@ function displayProducts(product) {
   quantityInput.setAttribute("max", "100");
   quantityInput.classList.add("itemQuantity");
   cartQuantity.appendChild(quantityInput);
+
+  const divDelete = document.createElement("div");
+  divDelete.classList.add("cart__item__content__settings__delete");
+  cartSettings.appendChild(divDelete);
+
+  const deleteButton = document.createElement("p");
+  deleteButton.classList.add("deleteItem");
+  deleteButton.innerHTML = "Delete";
+  divDelete.appendChild(deleteButton);
 }
