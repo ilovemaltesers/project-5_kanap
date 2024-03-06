@@ -74,4 +74,17 @@ function displayProducts(product) {
   const cartQuantity = document.createElement("div");
   cartQuantity.classList.add("cart__item__content__settings__quantity");
   cartSettings.appendChild(cartQuantity);
+
+  const quantityP = document.createElement("p");
+  quantityP.innerHTML = "Quantity:";
+  cartQuantity.appendChild(quantityP);
+
+  const quantityInput = document.createElement("input");
+  quantityInput.setAttribute("type", "number");
+  quantityInput.setAttribute("name", "itemQuantity");
+  quantityInput.setAttribute("min", "1");
+  quantityInput.setAttribute("value", "1");
+  quantityInput.setAttribute("max", "100");
+  quantityInput.classList.add("itemQuantity");
+  cartQuantity.appendChild(quantityInput);
 }
