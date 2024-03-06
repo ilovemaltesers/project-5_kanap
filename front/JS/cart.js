@@ -36,7 +36,7 @@ function displayProducts(product) {
   const article = document.createElement("article");
   article.classList.add("cart__item");
   article.setAttribute("data-id", product.id);
-  article.setAttribute("data-color", product.color);
+  article.setAttribute("data-color", product.colors);
   section.appendChild(article);
 
   const imgDiv = document.createElement("div");
@@ -59,11 +59,19 @@ function displayProducts(product) {
   productName.innerHTML = product.name;
   cartDescription.appendChild(productName);
 
-  const productColour = document.createElement("p");
-  productColour.innerHTML = product.colors;
-  cartDescription.appendChild(productColour);
+  const productColor = document.createElement("p");
+  productColor.innerHTML = product.colors;
+  cartDescription.appendChild(productColor);
 
   const productPrice = document.createElement("p");
   productPrice.innerHTML = "€" + product.price;
   cartDescription.appendChild(productPrice);
+
+  const cartSettings = document.createElement("div");
+  cartSettings.classList.add("cart__item__content__settings");
+  cartItemContent.appendChild(cartSettings);
+
+  const cartQuantity = document.createElement("div");
+  cartQuantity.classList.add("cart__item__content__settings__quantity");
+  cartSettings.appendChild(cartQuantity);
 }
