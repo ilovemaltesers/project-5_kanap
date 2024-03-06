@@ -98,7 +98,25 @@ function displayProducts(product) {
   cartSettings.appendChild(divDelete);
 
   const deleteButton = document.createElement("p");
-  deleteButton.classList.add("deleteItem");
+  deleteButton.classList.add("cart__item__content__settings__delete__btn");
   deleteButton.innerHTML = "Delete";
   divDelete.appendChild(deleteButton);
+
+  // delete item from cart
+
+  deleteButton.addEventListener("click", function () {
+    // Get the id of the product to remove
+    const productId = Number(
+      this.parentNode.parentNode.parentNode.parentNode.dataset.id
+    );
+
+    // remove the great-grandparent div of the delete button from the DOM
+    this.parentNode.parentNode.parentNode.parentNode.remove();
+
+    // remove the product from local storage
+    productsInLocalStorage = productsInLocalStorage.filter(
+      (product) => product.id !== productId
+    );
+    localStorage.setItem("cart", JSON.stringify(productsInLocalStorage));
+  });
 }

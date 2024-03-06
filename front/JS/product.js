@@ -116,17 +116,3 @@ window.onload = function () {
     }
   };
 };
-
-if (sofaLocalStorage) {
-  sofaLocalStorage.forEach(function (product, index) {
-    fetch(`http://localhost:3000/api/products/${product.productId}`)
-      .then((response) => response.json())
-      .then((data) => {
-        // Do something with the data
-        console.log(data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  });
-}
