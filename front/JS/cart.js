@@ -105,18 +105,11 @@ function displayProducts(product) {
   // delete item from cart
 
   deleteButton.addEventListener("click", function () {
-    // Get the id of the product to remove
-    const productId = Number(
-      this.parentNode.parentNode.parentNode.parentNode.dataset.id
+    const index = productsInLocalStorage.findIndex(
+      (item) => item.id === product.id && item.color === product.colors
     );
-
-    // remove the great-grandparent div of the delete button from the DOM
-    this.parentNode.parentNode.parentNode.parentNode.remove();
-
-    // remove the product from local storage
-    productsInLocalStorage = productsInLocalStorage.filter(
-      (product) => product.id !== productId
-    );
+    productsInLocalStorage.splice(index, 1);
     localStorage.setItem("cart", JSON.stringify(productsInLocalStorage));
+    article.remove();
   });
 }
