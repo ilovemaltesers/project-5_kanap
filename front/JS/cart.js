@@ -112,4 +112,13 @@ function displayProducts(product) {
     localStorage.setItem("cart", JSON.stringify(productsInLocalStorage));
     article.remove();
   });
+
+  // update quantity in cart function
+  quantityInput.addEventListener("change", function () {
+    const index = productsInLocalStorage.findIndex(
+      (item) => item.id === product.id && item.color === product.colors
+    );
+    productsInLocalStorage[index].quantity = quantityInput.value;
+    localStorage.setItem("cart", JSON.stringify(productsInLocalStorage));
+  });
 }
