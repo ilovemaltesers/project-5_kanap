@@ -91,6 +91,7 @@ function displayProducts(product) {
   quantityInput.setAttribute("value", product.quantity); // set the value to product.quantity
   quantityInput.setAttribute("max", "100");
   quantityInput.classList.add("itemQuantity");
+  quantityInput.setAttribute("data-id", product.id);
   cartQuantity.appendChild(quantityInput);
 
   const divDelete = document.createElement("div");
@@ -119,6 +120,6 @@ function displayProducts(product) {
       (item) => item.id === product.id && item.color === product.colors
     );
     productsInLocalStorage[index].quantity = quantityInput.value;
-    localStorage.setItem("cart", JSON.stringify(productsInLocalStorage));
+    localStorage.setItem("cart", JSON.stringifyNu(productsInLocalStorage));
   });
 }
