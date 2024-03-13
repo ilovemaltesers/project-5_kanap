@@ -91,6 +91,7 @@ function displayProducts(product) {
   quantityInput.setAttribute("value", product.quantity); // set the value to product.quantity
   quantityInput.setAttribute("max", "100");
   quantityInput.classList.add("itemQuantity");
+  quantityInput.setAttribute("data-id", product.id);
   quantityInput.setAttribute;
   cartQuantity.appendChild(quantityInput);
 
