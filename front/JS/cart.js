@@ -91,7 +91,7 @@ function displayProducts(product) {
   quantityInput.setAttribute("value", product.quantity); // set the value to product.quantity
   quantityInput.setAttribute("max", "100");
   quantityInput.classList.add("itemQuantity");
-  quantityInput.setAttribute("data-id", product.id);
+  quantityInput.setAttribute;
   cartQuantity.appendChild(quantityInput);
 
   const divDelete = document.createElement("div");
@@ -114,12 +114,38 @@ function displayProducts(product) {
     article.remove();
   });
 
-  // update quantity in cart function
+  // Update quantity in cart function
   quantityInput.addEventListener("change", function () {
-    const index = productsInLocalStorage.findIndex(
-      (item) => item.id === product.id && item.color === product.colors
-    );
-    productsInLocalStorage[index].quantity = quantityInput.value;
-    localStorage.setItem("cart", JSON.stringifyNu(productsInLocalStorage));
+    const newQuantity = parseInt(quantityInput.value); // Get the new quantity from the input
+
+    // Ensure that product is defined
+    if (product) {
+      // Find the index of the product in the local storage array
+      const index = productsInLocalStorage.findIndex(
+        (item) => item.id === product.id && item.color === product.colors
+      );
+
+      console.log("Index:", index); // Log the index to see if it's found or -1
+
+      // Ensure that the index is valid
+      if (index !== -1) {
+        // Update the quantity of the product in the local storage array
+        productsInLocalStorage[index].quantity = newQuantity;
+
+        try {
+          // Update the local storage with the updated cart data
+          localStorage.setItem("cart", JSON.stringify(productsInLocalStorage));
+        } catch (error) {
+          console.error("Error updating cart in local storage:", error);
+        }
+      } else {
+        console.error("Product not found in cart.");
+        console.log("Product ID:", product.id);
+        console.log("Product Color:", product.colors);
+        console.log("Products in localStorage:", productsInLocalStorage);
+      }
+    } else {
+      console.error("Product object is not defined.");
+    }
   });
 }
