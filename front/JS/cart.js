@@ -116,37 +116,32 @@ function displayProducts(product) {
   });
 
   // Update quantity in cart function
-  quantityInput.addEventListener("change", function () {
-    const newQuantity = parseInt(quantityInput.value); // Get the new quantity from the input
 
-    // Ensure that product is defined
+  // delete item from cart
+  deleteButton.addEventListener("click", function () {
+    const index = productsInLocalStorage.findIndex(
+      (item) => item.id === product.id && item.color === product.color
+    );
+    if (index !== -1) {
+      productsInLocalStorage.splice(index, 1);
+      localStorage.setItem("cart", JSON.stringify(productsInLocalStorage));
+      article.remove();
+    }
+  });
+
+  // Update quantity in cart function
+  quantityInput.addEventListener("change", function (event) {
+    const newQuantity = event.target.value; // The new quantity
+    const productId = event.target.dataset.id; // The id of the product, assuming you have a data-id attribute on the quantity input
+    // Find the product in the array
+    const product = productsInLocalStorage.find(
+      (product) => product.id === productId
+    );
     if (product) {
-      // Find the index of the product in the local storage array
-      const index = productsInLocalStorage.findIndex(
-        (item) => item.id === product.id && item.color === product.colors
-      );
-
-      console.log("Index:", index); // Log the index to see if it's found or -1
-
-      // Ensure that the index is valid
-      if (index !== -1) {
-        // Update the quantity of the product in the local storage array
-        productsInLocalStorage[index].quantity = newQuantity;
-
-        try {
-          // Update the local storage with the updated cart data
-          localStorage.setItem("cart", JSON.stringify(productsInLocalStorage));
-        } catch (error) {
-          console.error("Error updating cart in local storage:", error);
-        }
-      } else {
-        console.error("Product not found in cart.");
-        console.log("Product ID:", product.id);
-        console.log("Product Color:", product.colors);
-        console.log("Products in localStorage:", productsInLocalStorage);
-      }
-    } else {
-      console.error("Product object is not defined.");
+      // Update the quantity
+      product.quantity = newQuantity;
+      // Save the updated array back to local storage
+      localStorage.setItem("cart", JSON.stringify(productsInLocalStorage));
     }
   });
 }
