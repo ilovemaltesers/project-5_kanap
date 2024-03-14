@@ -121,19 +121,17 @@ function displayProducts(product) {
 }
 
 // Update quantity in cart function
-  // Update quantity in cart function
-  quantityInput.addEventListener("change", function (event) {
-    const newQuantity = event.target.value; // The new quantity
-    const productId = event.target.dataset.id; // The id of the product, assuming you have a data-id attribute on the quantity input
-    // Find the product in the array
-    const product = productsInLocalStorage.find(
-      (product) => product.id === productId
-    );
-    if (product) {
-      // Update the quantity
-      product.quantity = newQuantity;
-      // Save the updated array back to local storage
-      localStorage.setItem("cart", JSON.stringify(productsInLocalStorage));
-    }
-  });
-}
+quantityInput.addEventListener("change", function (event) {
+  const newQuantity = event.target.value; // The new quantity
+  const productId = event.target.dataset.id; // The id of the product, assuming you have a data-id attribute on the quantity input
+  // Find the product in the array
+  const product = productsInLocalStorage.find(
+    (product) => product.id === productId
+  );
+  if (product) {
+    // Update the quantity
+    product.quantity = newQuantity;
+    // Save the updated array back to local storage
+    localStorage.setItem("cart", JSON.stringify(productsInLocalStorage));
+  }
+});
