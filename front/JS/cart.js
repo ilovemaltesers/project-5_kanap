@@ -118,20 +118,6 @@ function displayProducts(product) {
   });
 
   // Update quantity in cart function
-
-  // delete item from cart
-  deleteButton.addEventListener("click", function () {
-    const index = productsInLocalStorage.findIndex(
-      (item) => item.id === product.id && item.color === product.color
-    );
-    if (index !== -1) {
-      productsInLocalStorage.splice(index, 1);
-      localStorage.setItem("cart", JSON.stringify(productsInLocalStorage));
-      article.remove();
-    }
-  });
-
-  // Update quantity in cart function
   quantityInput.addEventListener("change", function (event) {
     const newQuantity = event.target.value; // The new quantity
     const productId = event.target.dataset.id; // The id of the product, assuming you have a data-id attribute on the quantity input
