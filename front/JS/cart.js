@@ -1,4 +1,5 @@
 let productsInLocalStorage = localStorage.getItem("cart");
+
 try {
   if (productsInLocalStorage) {
     productsInLocalStorage = JSON.parse(productsInLocalStorage);
@@ -9,30 +10,31 @@ try {
   productsInLocalStorage = null;
 }
 
-if (productsInLocalStorage) {
-  productsInLocalStorage.forEach(function (product, index) {
-    fetch(`http://localhost:3000/api/products/${product.id}`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((productData) => {
-        // Filter productData.colors to only include the color from localStorage
-        productData.colors = productData.colors.filter(
-          (color) => color === product.color
-        );
-        productData.quantity = product.quantity;
-        displayProducts(productData); // Call displayProducts with fetched product data
-      })
-      .catch((error) => {
-        console.error(
-          "There has been a problem with your fetch operation:",
-          error
-        );
-      });
-  });
+for (let i = 0; i < productsInLocalStorage.length; i++) {
+  const product = productsInLocalStorage[i];
+  const productId = product.id;
+
+  fetch(`http://localhost:3000/api/products/${product.id}`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((productData) => {
+      // Filter productData.colors to only include the color from localStorage
+      productData.colors = productData.colors.filter(
+        (color) => color === productsInLocalStorage[i].color
+      );
+      productData.quantity = productsInLocalStorage[i].quantity;
+      displayProducts(productData); // Call displayProducts with fetched product data
+    })
+    .catch((error) => {
+      console.error(
+        "There has been a problem with your fetch operation:",
+        error
+      );
+    });
 }
 
 function displayProducts(product) {
@@ -134,7 +136,7 @@ function displayProducts(product) {
     const newQuantity = event.target.value; // The new quantity
     const productId = event.target.dataset.id; // The id of the product, assuming you have a data-id attribute on the quantity input
     // Find the product in the array
-    const product = productsInLocalStorage.find(
+    const prod = productsInLocalStorage.find(
       (product) => product.id === productId
     );
     if (product) {
