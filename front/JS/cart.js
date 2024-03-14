@@ -13,6 +13,8 @@ try {
 for (let i = 0; i < productsInLocalStorage.length; i++) {
   const product = productsInLocalStorage[i];
   const productId = product.id;
+  const productColor = product.color;
+  const productQuantity = product.quantity;
 
   fetch(`http://localhost:3000/api/products/${product.id}`)
     .then((response) => {
@@ -116,13 +118,15 @@ function displayProducts(product) {
     localStorage.setItem("cart", JSON.stringify(productsInLocalStorage));
     article.remove();
   });
+}
 
+// Update quantity in cart function
   // Update quantity in cart function
   quantityInput.addEventListener("change", function (event) {
     const newQuantity = event.target.value; // The new quantity
     const productId = event.target.dataset.id; // The id of the product, assuming you have a data-id attribute on the quantity input
     // Find the product in the array
-    const prod = productsInLocalStorage.find(
+    const product = productsInLocalStorage.find(
       (product) => product.id === productId
     );
     if (product) {
