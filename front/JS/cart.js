@@ -100,12 +100,14 @@ function displayProducts(product) {
   cartQuantity.appendChild(quantityInput);
 
   // Update quantity in cart function
+
   quantityInput.addEventListener("change", function (event) {
+    console.log("Quantity changed");
     const newQuantity = event.target.value; // The new quantity
     const productId = event.target.dataset.id; // The id of the product, assuming you have a data-id attribute on the quantity input
     // Find the product in the array
     const product = productsInLocalStorage.find(
-      (product) => product.id === productId
+      (product) => product.id === Number(productId)
     );
     if (product) {
       // Update the quantity
@@ -135,21 +137,3 @@ function displayProducts(product) {
     article.remove();
   });
 }
-
-// Update quantity in cart function
-const quantityInput = document.createElement("input");
-
-quantityInput.addEventListener("change", function (event) {
-  const newQuantity = event.target.value; // The new quantity
-  const productId = event.target.dataset.id;
-
-  const product = productsInLocalStorage.find(
-    (product) => product.id === productId
-  );
-  if (product) {
-    // Update the quantity
-    product.quantity = newQuantity;
-    // Save the updated array back to local storage
-    localStorage.setItem("cart", JSON.stringify(productsInLocalStorage));
-  }
-});
