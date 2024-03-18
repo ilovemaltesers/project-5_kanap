@@ -95,25 +95,44 @@ function displayProducts(product) {
   quantityInput.setAttribute("value", product.quantity); // set the value to product.quantity
   quantityInput.setAttribute("max", "100");
   quantityInput.classList.add("itemQuantity");
+  console.log("Product ID:", product.id); // Log the product ID
   quantityInput.setAttribute("data-id", product.id);
-  quantityInput.setAttribute;
+
   cartQuantity.appendChild(quantityInput);
 
   // Update quantity in cart function
 
-  quantityInput.addEventListener("change", function (event) {
-    console.log("Quantity changed");
-    const newQuantity = event.target.value; // The new quantity
-    const productId = event.target.dataset.id; // The id of the product, assuming you have a data-id attribute on the quantity input
-    // Find the product in the array
-    const product = productsInLocalStorage.find(
-      (product) => product.id === Number(productId)
-    );
-    if (product) {
-      // Update the quantity
-      product.quantity = newQuantity;
-      // Save the updated array back to local storage
-      localStorage.setItem("cart", JSON.stringify(productsInLocalStorage));
+  document.addEventListener("change", function (event) {
+    const inputElement = event.target.closest(".itemQuantity");
+    if (inputElement) {
+      console.log("Quantity changed");
+      const newQuantity = event.target.value; // The new quantity
+      const productId = event.target.dataset.product.id;
+      ("data-id"); // The id of the product
+
+      console.log("Product ID:", productId); // Log the product ID
+
+      // Retrieve the latest cart data from local storage
+      let latestCart = JSON.parse(localStorage.getItem("cart"));
+
+      console.log("Latest cart:", latestCart); // Log the latest cart
+
+      // Find the product in the array
+      const product = latestCart.find(
+        (product) => product.id.toString() === productId
+      );
+
+      if (product) {
+        console.log("Product found:", product); // Log the product that was found
+        // Update the quantity
+        product.quantity = Number(newQuantity);
+        console.log("Updated product:", product); // Log the product after updating the quantity
+        // Save the updated array back to local storage
+        localStorage.setItem("cart", JSON.stringify(latestCart));
+        console.log("Updated cart:", latestCart); // Log the updated cart
+      } else {
+        console.log("Product not found"); // Log if the product was not found
+      }
     }
   });
 
@@ -137,3 +156,135 @@ function displayProducts(product) {
     article.remove();
   });
 }
+
+// form validation
+
+const firstName = document.querySelector("#firstName");
+const lastName = document.querySelector("#lastName");
+const address = document.querySelector("#address");
+const city = document.querySelector("#city");
+const email = document.querySelector("#email");
+
+ExpFirstName = /^[a-zA-Z]{2,20}$/;
+ExpLastName = /^[a-zA-Z]{2,20}$/;
+ExpAddress = /^[a-zA-Z0-9\s.,#-]+$/;
+ExpCity = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/;
+ExpEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+firstName.addEventListener("input", function (e) {
+  const isValid = ExpFirstName.test(e.target.value);
+  if (isValid) {
+    console.log("First name is valid");
+    firstName.style.border = "2px solid green";
+  } else {
+    console.log("First name is invalid");
+    firstName.style.border = "2px solid red";
+  }
+});
+
+lastName.addEventListener("input", function (e) {
+  const isValid = ExpLastName.test(e.target.value);
+  if (isValid) {
+    console.log("Last name is valid");
+    lastName.style.border = "2px solid green";
+  } else {
+    console.log("Last name is invalid");
+    lastName.style.border = "2px solid red";
+  }
+});
+
+address.addEventListener("input", function (e) {
+  const isValid = ExpAddress.test(e.target.value);
+  if (isValid) {
+    console.log("Address is valid");
+    address.style.border = "2px solid green";
+  } else {
+    console.log("Address is invalid");
+    address.style.border = "2px solid red";
+  }
+});
+
+city.addEventListener("input", function (e) {
+  const isValid = ExpCity.test(e.target.value);
+  if (isValid) {
+    console.log("City is valid");
+    city.style.border = "2px solid green";
+  } else {
+    console.log("City is invalid");
+    city.style.border = "2px solid red";
+  }
+});
+
+email.addEventListener("input", function (e) {
+  const isValid = ExpEmail.test(e.target.value);
+  if (isValid) {
+    console.log("Email is valid");
+    email.style.border = "2px solid green";
+  } else {
+    console.log("Email is invalid");
+    email.style.border = "2px solid red";
+  }
+});
+
+// form submit
+
+const submitOrder = document.getElementById("order");
+submitOrder.addEventListener("submit", function (e) {
+  e.preventDefault();
+  console.log("Form submitted");
+  const firstNameValue = firstName.value;
+  const lastNameValue = lastName.value;
+  const addressValue = address.value;
+  const cityValue = city.value;
+  const emailValue = email.value;
+
+  const contact = {
+    firstName: firstNameValue,
+    lastName: lastNameValue,
+    address: addressValue,
+    city: cityValue,
+    email: emailValue,
+  };
+  console.log("Contact:", contact);
+
+  const productsOrdered = productsInLocalStorage.map((product) => {
+    return {
+      _id: product.id,
+      color: product.color,
+      quantity: product.quantity,
+    };
+  });
+  prompt("Thank you for your order", productsOrdered);
+  console.log("Products ordered:", products);
+
+  const completeOrderSummary = {
+    contact: contact,
+    products: products,
+  };
+  console.log("Order:", order);
+
+  fetch("http://localhost:3000/api/products/order", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(order),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log("Success:", data);
+      localStorage.setItem("orderId", data.orderId);
+      window.location.href = "confirmation.html";
+    })
+    .catch((error) => {
+      console.error(
+        "There has been a problem with your fetch operation:",
+        error
+      );
+    });
+});
