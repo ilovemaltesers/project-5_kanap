@@ -99,6 +99,22 @@ function displayProducts(product) {
   quantityInput.setAttribute;
   cartQuantity.appendChild(quantityInput);
 
+  // Update quantity in cart function
+  quantityInput.addEventListener("change", function (event) {
+    const newQuantity = event.target.value; // The new quantity
+    const productId = event.target.dataset.id; // The id of the product, assuming you have a data-id attribute on the quantity input
+    // Find the product in the array
+    const product = productsInLocalStorage.find(
+      (product) => product.id === productId
+    );
+    if (product) {
+      // Update the quantity
+      product.quantity = newQuantity;
+      // Save the updated array back to local storage
+      localStorage.setItem("cart", JSON.stringify(productsInLocalStorage));
+    }
+  });
+
   const divDelete = document.createElement("div");
   divDelete.classList.add("cart__item__content__settings__delete");
   cartSettings.appendChild(divDelete);
@@ -121,10 +137,12 @@ function displayProducts(product) {
 }
 
 // Update quantity in cart function
+const quantityInput = document.createElement("input");
+
 quantityInput.addEventListener("change", function (event) {
   const newQuantity = event.target.value; // The new quantity
-  const productId = event.target.dataset.id; // The id of the product, assuming you have a data-id attribute on the quantity input
-  // Find the product in the array
+  const productId = event.target.dataset.id;
+
   const product = productsInLocalStorage.find(
     (product) => product.id === productId
   );
