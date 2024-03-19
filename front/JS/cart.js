@@ -166,6 +166,8 @@ let ExpAddress = /^[a-zA-Z0-9\s.,#-]{1,30}$/;
 let ExpCity = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/;
 let ExpEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
+// individual field validations
+
 const firstName = document.querySelector("#firstName");
 
 ExpFirstName = /^[a-zA-Z]{2,20}$/;
@@ -250,75 +252,77 @@ email.addEventListener("input", function (e) {
   }
 });
 
-if (
-  firstName.value.length > 0 ||
-  lastName.value.length > 0 ||
-  address.value.length > 0 ||
-  city.value.length > 0 ||
-  email.value.length > 0
-) {
-  alert("Please fill in all the fields");
-}
+/// form submit
 
-// form submit
+const orderButton = document.getElementById("order");
+const form = document.querySelector(".cart__order__form");
 
-const submitOrder = document.getElementById("order");
-console.log("Submit Order Element:", submitOrder); // Check if the element is correctly selected
+orderButton.addEventListener("click", function (e) {
+  if (
+    firstName.value.length === 0 ||
+    lastName.value.length === 0 ||
+    address.value.length === 0 ||
+    city.value.length === 0 ||
+    email.value.length === 0
+  ) {
+    e.preventDefault();
+    alert("Please fill in all the fields");
+    console.log("Please fill in all the fields");
+  } else {
+    e.preventDefault();
+    console.log("Form submitted");
 
-submitOrder.addEventListener("submit", function (e) {
-  e.preventDefault();
-  console.log("Form submitted");
-
-  const contact = {
-    firstName: document.getElementById("firstName").value,
-    lastName: document.getElementById("lastName").value,
-    address: document.getElementById("address").value,
-    city: document.getElementById("city").value,
-    email: document.getElementById("email").value,
-  };
-  console.log("Contact:", contact);
-
-  const productsInLocalStorage = JSON.parse(localStorage.getItem("cart"));
-  console.log("Products in Local Storage:", productsInLocalStorage); // Check if the products are correctly retrieved from local storage
-
-  const productsOrdered = productsInLocalStorage.map((product) => {
-    return {
-      _id: product.id,
-      color: product.color,
-      quantity: product.quantity,
+    const contact = {
+      firstName: document.getElementById("firstName").value,
+      lastName: document.getElementById("lastName").value,
+      address: document.getElementById("address").value,
+      city: document.getElementById("city").value,
+      email: document.getElementById("email").value,
     };
-  });
-  console.log("Products ordered:", productsOrdered);
 
-  const completeOrderSummary = {
-    contact: contact,
-    products: productsOrdered,
-  };
-  console.log("Order:", completeOrderSummary);
-
-  fetch("http://localhost:3000/api/products/order", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(completeOrderSummary),
-  })
-    .then((response) => {
-      console.log("Fetch Response:", response); // Check the response from the fetch request
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.json();
-    })
-    .then((data) => {
-      console.log("Success:", data);
-      localStorage.setItem("orderId", data.orderId);
-      window.location.href = "confirmation.html";
-    })
-    .catch((error) => {
-      console.error(
-        "There has been a problem with your fetch operation:",
-        error
-      );
-    });
+    console.log("Contact:", contact);
+  }
 });
+
+const finalProductsInLocalStorage = JSON.parse(localStorage.getItem("cart"));
+console.log("Products in Local Storage:", productsInLocalStorage); // Check if the products are correctly retrieved from local storage
+
+const productsOrdered = productsInLocalStorage.map((product) => {
+  return {
+    _id: product.id,
+    color: product.color,
+    quantity: product.quantity,
+  };
+});
+console.log("Products ordered:", productsOrdered);
+
+const completeOrderSummary = {
+  contact: contact,
+  products: productsOrdered,
+};
+console.log("Order:", completeOrderSummary);
+
+fetch("http://localhost:3000/api/products/order", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify(completeOrderSummary),
+})
+  .then((response) => {
+    console.log("Fetch Response:", response); // Check the response from the fetch request
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    return response.json();
+  })
+  .then((data) => {
+    console.log("Success:", data);
+    localStorage.setItem("orderId", data.orderId);
+    window.location.href = "confirmation.html";
+  })
+  .catch((error) => {
+    console.error("There has been a problem with your fetch operation:", error);
+  });
+
+// confirmation page
