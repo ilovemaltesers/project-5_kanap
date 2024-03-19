@@ -256,6 +256,13 @@ email.addEventListener("input", function (e) {
 
 const orderButton = document.getElementById("order");
 const form = document.querySelector(".cart__order__form");
+const contact = {
+  firstName: document.getElementById("firstName").value,
+  lastName: document.getElementById("lastName").value,
+  address: document.getElementById("address").value,
+  city: document.getElementById("city").value,
+  email: document.getElementById("email").value,
+};
 
 orderButton.addEventListener("click", function (e) {
   if (
