@@ -250,9 +250,21 @@ email.addEventListener("input", function (e) {
   }
 });
 
+if (
+  firstName.value.length > 0 ||
+  lastName.value.length > 0 ||
+  address.value.length > 0 ||
+  city.value.length > 0 ||
+  email.value.length > 0
+) {
+  alert("Please fill in all the fields");
+}
+
 // form submit
 
 const submitOrder = document.getElementById("order");
+console.log("Submit Order Element:", submitOrder); // Check if the element is correctly selected
+
 submitOrder.addEventListener("submit", function (e) {
   e.preventDefault();
   console.log("Form submitted");
@@ -267,6 +279,7 @@ submitOrder.addEventListener("submit", function (e) {
   console.log("Contact:", contact);
 
   const productsInLocalStorage = JSON.parse(localStorage.getItem("cart"));
+  console.log("Products in Local Storage:", productsInLocalStorage); // Check if the products are correctly retrieved from local storage
 
   const productsOrdered = productsInLocalStorage.map((product) => {
     return {
@@ -275,7 +288,6 @@ submitOrder.addEventListener("submit", function (e) {
       quantity: product.quantity,
     };
   });
-  prompt("Thank you for your order", productsOrdered);
   console.log("Products ordered:", productsOrdered);
 
   const completeOrderSummary = {
@@ -292,6 +304,7 @@ submitOrder.addEventListener("submit", function (e) {
     body: JSON.stringify(completeOrderSummary),
   })
     .then((response) => {
+      console.log("Fetch Response:", response); // Check the response from the fetch request
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
