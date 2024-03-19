@@ -271,6 +271,8 @@ orderButton.addEventListener("click", function (e) {
   } else {
     e.preventDefault();
     console.log("Form submitted");
+    e.preventDefault();
+    console.log("Form submitted");
 
     const contact = {
       firstName: document.getElementById("firstName").value,
@@ -281,11 +283,39 @@ orderButton.addEventListener("click", function (e) {
     };
 
     console.log("Contact:", contact);
+
+    const finalProductsInLocalStorage = JSON.parse(
+      localStorage.getItem("cart")
+    );
+    console.log("Products in Local Storage:", productsInLocalStorage); // Check if the products are correctly retrieved from local storage
+
+    // products ordered
+
+    const productsOrdered = productsInLocalStorage.map((product) => {
+      return {
+        _id: product.id,
+        color: product.color,
+        quantity: product.quantity,
+      };
+    });
+    console.log("Products ordered:", productsOrdered);
+
+    const completeOrderSummary = {
+      contact: contact,
+      products: productsOrdered,
+    };
+    console.log("complete order summary:", completeOrderSummary);
+
+    // ... rest of your code
+
+    console.log("Contact:", contact);
   }
 });
 
 const finalProductsInLocalStorage = JSON.parse(localStorage.getItem("cart"));
 console.log("Products in Local Storage:", productsInLocalStorage); // Check if the products are correctly retrieved from local storage
+
+// products ordered
 
 const productsOrdered = productsInLocalStorage.map((product) => {
   return {
@@ -300,7 +330,7 @@ const completeOrderSummary = {
   contact: contact,
   products: productsOrdered,
 };
-console.log("Order:", completeOrderSummary);
+console.log("complete order summary:", completeOrderSummary);
 
 fetch("http://localhost:3000/api/products/order", {
   method: "POST",
