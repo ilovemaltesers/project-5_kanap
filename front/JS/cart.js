@@ -276,20 +276,20 @@ submitOrder.addEventListener("submit", function (e) {
     };
   });
   prompt("Thank you for your order", productsOrdered);
-  console.log("Products ordered:", products);
+  console.log("Products ordered:", productsOrdered);
 
   const completeOrderSummary = {
     contact: contact,
-    products: products,
+    products: productsOrdered,
   };
-  console.log("Order:", order);
+  console.log("Order:", completeOrderSummary);
 
   fetch("http://localhost:3000/api/products/order", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(order),
+    body: JSON.stringify(completeOrderSummary),
   })
     .then((response) => {
       if (!response.ok) {
