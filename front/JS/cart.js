@@ -266,6 +266,8 @@ submitOrder.addEventListener("submit", function (e) {
   };
   console.log("Contact:", contact);
 
+  const productsInLocalStorage = JSON.parse(localStorage.getItem("cart"));
+
   const productsOrdered = productsInLocalStorage.map((product) => {
     return {
       _id: product.id,
