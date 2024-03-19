@@ -256,18 +256,13 @@ const submitOrder = document.getElementById("order");
 submitOrder.addEventListener("submit", function (e) {
   e.preventDefault();
   console.log("Form submitted");
-  const firstNameValue = firstName.value;
-  const lastNameValue = lastName.value;
-  const addressValue = address.value;
-  const cityValue = city.value;
-  const emailValue = email.value;
 
   const contact = {
-    firstName: firstNameValue,
-    lastName: lastNameValue,
-    address: addressValue,
-    city: cityValue,
-    email: emailValue,
+    firstName: document.getElementById("firstName").value,
+    lastName: document.getElementById("lastName").value,
+    address: document.getElementById("address").value,
+    city: document.getElementById("city").value,
+    email: document.getElementById("email").value,
   };
   console.log("Contact:", contact);
 
