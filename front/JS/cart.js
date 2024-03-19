@@ -159,17 +159,16 @@ function displayProducts(product) {
 
 // form validation
 
+let ExpFirstName = /^[a-zA-Z]{2,20}$/;
+let ExpLastName = /^[a-zA-Z]{2,20}$/;
+let ExpAddress = /^[a-zA-Z0-9\s.,#-]{1,30}$/;
+
+let ExpCity = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/;
+let ExpEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
 const firstName = document.querySelector("#firstName");
-const lastName = document.querySelector("#lastName");
-const address = document.querySelector("#address");
-const city = document.querySelector("#city");
-const email = document.querySelector("#email");
 
 ExpFirstName = /^[a-zA-Z]{2,20}$/;
-ExpLastName = /^[a-zA-Z]{2,20}$/;
-ExpAddress = /^[a-zA-Z0-9\s.,#-]+$/;
-ExpCity = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/;
-ExpEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
 firstName.addEventListener("input", function (e) {
   const isValid = ExpFirstName.test(e.target.value);
@@ -179,8 +178,13 @@ firstName.addEventListener("input", function (e) {
   } else {
     console.log("First name is invalid");
     firstName.style.border = "2px solid red";
+    if (e.target.value.length > 20) {
+      alert("Please enter a name that does not exceed 20 characters");
+    }
   }
 });
+
+const lastName = document.querySelector("#lastName");
 
 lastName.addEventListener("input", function (e) {
   const isValid = ExpLastName.test(e.target.value);
@@ -190,8 +194,13 @@ lastName.addEventListener("input", function (e) {
   } else {
     console.log("Last name is invalid");
     lastName.style.border = "2px solid red";
+    if (e.target.value.length > 20) {
+      alert("Please enter a name that does not exceed 20 characters");
+    }
   }
 });
+
+const address = document.querySelector("#address");
 
 address.addEventListener("input", function (e) {
   const isValid = ExpAddress.test(e.target.value);
@@ -201,11 +210,24 @@ address.addEventListener("input", function (e) {
   } else {
     console.log("Address is invalid");
     address.style.border = "2px solid red";
+    if (e.target.value.length > 20) {
+      alert("Please enter an address that does not exceed 30 characters");
+    }
   }
 });
 
+const city = document.querySelector("#city");
+
 city.addEventListener("input", function (e) {
-  const isValid = ExpCity.test(e.target.value);
+  const inputValue = e.target.value;
+
+  if (inputValue.length > 20) {
+    alert("Please enter a city that does not exceed 20 characters");
+    city.style.border = "2px solid red";
+    return;
+  }
+
+  const isValid = ExpCity.test(inputValue);
   if (isValid) {
     console.log("City is valid");
     city.style.border = "2px solid green";
@@ -214,6 +236,8 @@ city.addEventListener("input", function (e) {
     city.style.border = "2px solid red";
   }
 });
+
+const email = document.querySelector("#email");
 
 email.addEventListener("input", function (e) {
   const isValid = ExpEmail.test(e.target.value);
