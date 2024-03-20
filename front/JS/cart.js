@@ -18,11 +18,6 @@ for (let i = 0; i < productsInLocalStorage.length; i++) {
     const productColor = product.color;
     const productQuantity = product.quantity;
 
-    if (!productId || !productColor || !productQuantity) {
-      console.error("Product data is incomplete:", product);
-      continue;
-    }
-
     fetch(`http://localhost:3000/api/products/${productsInLocalStorage[i].id}`)
       .then((response) => {
         if (!response.ok) {
