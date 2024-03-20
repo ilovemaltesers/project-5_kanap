@@ -12,9 +12,9 @@ try {
 
 for (let i = 0; i < productsInLocalStorage.length; i++) {
   const product = productsInLocalStorage[i];
-  const productId = product.id;
-  const productColor = product.color;
-  const productQuantity = product.quantity;
+  const productId = productsInLocalStorage[i].id;
+  const productColor = productsInLocalStorage[i].color;
+  const productQuantity = productsInLocalStorage[i].quantity;
 
   fetch(`http://localhost:3000/api/products/${product.id}`)
     .then((response) => {
@@ -95,7 +95,7 @@ function displayProducts(product) {
   quantityInput.setAttribute("value", product.quantity); // set the value to product.quantity
   quantityInput.setAttribute("max", "100");
   quantityInput.classList.add("itemQuantity");
-  console.log("Product ID:", product.id); // Log the product ID
+  console.log("The product id as usual:", product.id); // Log the product ID
   quantityInput.setAttribute("data-id", product.id);
 
   cartQuantity.appendChild(quantityInput);
@@ -256,13 +256,6 @@ email.addEventListener("input", function (e) {
 
 const orderButton = document.getElementById("order");
 const form = document.querySelector(".cart__order__form");
-const contact = {
-  firstName: document.getElementById("firstName").value,
-  lastName: document.getElementById("lastName").value,
-  address: document.getElementById("address").value,
-  city: document.getElementById("city").value,
-  email: document.getElementById("email").value,
-};
 
 orderButton.addEventListener("click", function (e) {
   if (
@@ -278,8 +271,6 @@ orderButton.addEventListener("click", function (e) {
   } else {
     e.preventDefault();
     console.log("Form submitted");
-    e.preventDefault();
-    console.log("Form submitted");
 
     const contact = {
       firstName: document.getElementById("firstName").value,
@@ -290,39 +281,11 @@ orderButton.addEventListener("click", function (e) {
     };
 
     console.log("Contact:", contact);
-
-    const finalProductsInLocalStorage = JSON.parse(
-      localStorage.getItem("cart")
-    );
-    console.log("Products in Local Storage:", productsInLocalStorage); // Check if the products are correctly retrieved from local storage
-
-    // products ordered
-
-    const productsOrdered = productsInLocalStorage.map((product) => {
-      return {
-        _id: product.id,
-        color: product.color,
-        quantity: product.quantity,
-      };
-    });
-    console.log("Products ordered:", productsOrdered);
-
-    const completeOrderSummary = {
-      contact: contact,
-      products: productsOrdered,
-    };
-    console.log("complete order summary:", completeOrderSummary);
-
-    // ... rest of your code
-
-    console.log("Contact:", contact);
   }
 });
 
 const finalProductsInLocalStorage = JSON.parse(localStorage.getItem("cart"));
 console.log("Products in Local Storage:", productsInLocalStorage); // Check if the products are correctly retrieved from local storage
-
-// products ordered
 
 const productsOrdered = productsInLocalStorage.map((product) => {
   return {
@@ -337,7 +300,7 @@ const completeOrderSummary = {
   contact: contact,
   products: productsOrdered,
 };
-console.log("complete order summary:", completeOrderSummary);
+console.log("Order:", completeOrderSummary);
 
 fetch("http://localhost:3000/api/products/order", {
   method: "POST",
