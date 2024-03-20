@@ -16,7 +16,7 @@ for (let i = 0; i < productsInLocalStorage.length; i++) {
   const productColor = productsInLocalStorage[i].color;
   const productQuantity = productsInLocalStorage[i].quantity;
 
-  fetch(`http://localhost:3000/api/products/${product.id}`)
+  fetch(`http://localhost:3000/api/products/${productId}`)
     .then((response) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -44,7 +44,7 @@ function displayProducts(product) {
 
   const article = document.createElement("article");
   article.classList.add("cart__item");
-  article.setAttribute("data-id", product.id);
+  article.setAttribute("data-id", productsInLocalStorage[i].id);
   article.setAttribute("data-color", product.colors);
   section.appendChild(article);
 
@@ -95,8 +95,7 @@ function displayProducts(product) {
   quantityInput.setAttribute("value", product.quantity); // set the value to product.quantity
   quantityInput.setAttribute("max", "100");
   quantityInput.classList.add("itemQuantity");
-  console.log("The product id as usual:", product.id); // Log the product ID
-  quantityInput.setAttribute("data-id", product.id);
+  quantityInput.setAttribute("data-id", productsInLocalStorage[i].id);
 
   cartQuantity.appendChild(quantityInput);
 
