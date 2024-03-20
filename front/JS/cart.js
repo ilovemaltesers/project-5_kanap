@@ -287,15 +287,34 @@ orderButton.addEventListener("click", function (e) {
     console.log(
       "Final Products in Local Storage:",
       finalProductsInLocalStorage
-    ); // Check if the products are correctly retrieved from local storage
+    );
 
-    const productsOrdered = finalProductsInLocalStorage.map((product) => {
-      return {
-        _id: product.id,
-        color: product.color,
-        quantity: product.quantity,
-      };
-    });
-    console.log("Products Ordered:", productsOrdered);
+    // Place and post order
+    function placeOrder(finalProductsInLocalStorage) {
+      const productsOrdered = finalProductsInLocalStorage.map((product) => {
+        return {
+          _id: product.id,
+          color: product.color,
+          quantity: product.quantity,
+        };
+      });
+      console.log("Products Ordered:", productsOrdered);
+
+      const url = "http://localhost:3000/api/products/order";
+
+      fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(productsOrdered),
+      })
+        .then((response) => response.json())
+        .then((data) => console.log("Your order has been placed!:", data))
+        .catch((error) => console.error("Error:", error));
+    }
+
+    // Call the placeOrder function
+    placeOrder(finalProductsInLocalStorage);
   }
 });
