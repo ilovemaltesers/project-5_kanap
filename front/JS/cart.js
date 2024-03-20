@@ -11,6 +11,7 @@ try {
 }
 
 for (let i = 0; i < productsInLocalStorage.length; i++) {
+  const i = (index) => productsInLocalStorage[index];
   const product = productsInLocalStorage[i];
   const productId = productsInLocalStorage[i].id;
   const productColor = productsInLocalStorage[i].color;
