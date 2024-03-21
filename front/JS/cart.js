@@ -13,9 +13,9 @@ try {
 for (let i = 0; i < productsInLocalStorage.length; i++) {
   const product = productsInLocalStorage[i];
   if (product) {
-    const productId = productsInLocalStorage[i].id;
-    const productColor = productsInLocalStorage[i].color;
-    const productQuantity = productsInLocalStorage[i].quantity;
+    const productId = product.id;
+    const productColor = product.color;
+    const productQuantity = product.quantity;
 
     fetch(`http://localhost:3000/api/products/${product.id}`)
       .then((response) => {
