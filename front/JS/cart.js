@@ -129,11 +129,16 @@ for (let i = 0; i < productsInLocalStorage.length; i++) {
 
     quantityInput.addEventListener("change", function (event) {
       const itemId = event.target.getAttribute("data-id");
+
       const newQuantity = event.target.value;
+      console.log("itemId:", itemId);
+      console.log("product.colors:", product.colors);
+      console.log("productsInLocalStorage:", productsInLocalStorage);
 
       const index = productsInLocalStorage.findIndex(
-        (item) => item.id === itemId && item.color === product.colors
+        (item) => item.id === itemId && item.color === product.colors[0]
       );
+      console.log("index", index);
 
       if (index !== -1) {
         productsInLocalStorage[index].quantity = newQuantity;
@@ -276,6 +281,7 @@ orderButton.addEventListener("click", function (e) {
     );
 
     // Place and post order
+
     function placeOrder(finalProductsInLocalStorage) {
       const productsOrdered = finalProductsInLocalStorage.map((product) => {
         return {
@@ -286,6 +292,11 @@ orderButton.addEventListener("click", function (e) {
       });
       console.log("Products Ordered:", productsOrdered);
 
+      const order = {
+        contact: contact,
+        products: productsOrdered,
+      };
+
       const url = "http://localhost:3000/api/products/order";
 
       fetch(url, {
@@ -293,14 +304,12 @@ orderButton.addEventListener("click", function (e) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(productsOrdered),
+        body: JSON.stringify(order),
       })
         .then((response) => response.json())
         .then((data) => console.log("Your order has been placed!:", data))
         .catch((error) => console.error("Error:", error));
     }
-
-    // Call the placeOrder function
     placeOrder(finalProductsInLocalStorage);
   }
 });
