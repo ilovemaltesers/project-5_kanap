@@ -39,125 +39,125 @@ for (let i = 0; i < productsInLocalStorage.length; i++) {
         );
       });
   }
+
+  function displayProducts(product) {
+    const section = document.getElementById("cart__items");
+
+    const article = document.createElement("article");
+    article.classList.add("cart__item");
+    article.setAttribute("data-id", product.id);
+    article.setAttribute("data-color", product.colors);
+    section.appendChild(article);
+
+    const imgDiv = document.createElement("div");
+    imgDiv.classList.add("cart__item__img");
+    const img = document.createElement("img");
+    img.setAttribute("src", product.imageUrl);
+    img.setAttribute("alt", product.altTxt);
+    imgDiv.appendChild(img);
+    article.appendChild(imgDiv);
+
+    const cartItemContent = document.createElement("div");
+    cartItemContent.classList.add("cart__item__content");
+    article.appendChild(cartItemContent);
+
+    const cartDescription = document.createElement("div");
+    cartDescription.classList.add("cart__item__content__description");
+    cartItemContent.appendChild(cartDescription);
+
+    const productName = document.createElement("h2");
+    productName.innerHTML = product.name;
+    cartDescription.appendChild(productName);
+
+    const productColor = document.createElement("p");
+    productColor.innerHTML = product.colors;
+    cartDescription.appendChild(productColor);
+
+    const productPrice = document.createElement("p");
+    productPrice.innerHTML = "€" + product.price;
+    cartDescription.appendChild(productPrice);
+
+    const cartSettings = document.createElement("div");
+    cartSettings.classList.add("cart__item__content__settings");
+    cartItemContent.appendChild(cartSettings);
+
+    const cartQuantity = document.createElement("div");
+    cartQuantity.classList.add("cart__item__content__settings__quantity");
+    cartSettings.appendChild(cartQuantity);
+
+    const quantityP = document.createElement("p");
+    quantityP.innerHTML = "Quantity:";
+    cartQuantity.appendChild(quantityP);
+
+    const quantityInput = document.createElement("input");
+    quantityInput.setAttribute("type", "number");
+    quantityInput.setAttribute("name", "itemQuantity");
+    quantityInput.setAttribute("min", "1");
+    quantityInput.setAttribute("value", product.quantity); // set the value to product.quantity
+    quantityInput.setAttribute("max", "100");
+    quantityInput.classList.add("itemQuantity");
+    console.log("The product id as usual:", product.id); // Log the product ID
+    quantityInput.setAttribute("data-id", product.id);
+
+    cartQuantity.appendChild(quantityInput);
+
+    const divDelete = document.createElement("div");
+    divDelete.classList.add("cart__item__content__settings__delete");
+    cartSettings.appendChild(divDelete);
+
+    const deleteButton = document.createElement("p");
+    deleteButton.classList.add("cart__item__content__settings__delete__btn");
+    deleteButton.innerHTML = "Delete";
+    divDelete.appendChild(deleteButton);
+
+    // delete item from cart
+
+    deleteButton.addEventListener("click", function () {
+      const index = productsInLocalStorage.findIndex(
+        (item) => item.id === product.id && item.color === product.colors
+      );
+      productsInLocalStorage.splice(index, 1);
+      localStorage.setItem("cart", JSON.stringify(productsInLocalStorage));
+      article.remove();
+    });
+  }
+
+  // Update quantity in cart function
+
+  //.addEventListener("change", function (event) {
+  //   const inputElement = event.target.closest(".itemQuantity");
+  //   if (inputElement) {
+  //     console.log("Quantity changed");
+  //     const newQuantity = event.target.value; // The new quantity
+  //     const productId = event.target.dataset.id;
+  //     ("data-id"); // The id of the product
+
+  //     console.log("Product ID:", productId); // Log the product ID
+
+  //     // Retrieve the latest cart data from local storage
+  //     let latestCart = JSON.parse(localStorage.getItem("cart"));
+
+  //     console.log("Latest cart:", latestCart); // Log the latest cart
+
+  //     // Find the product in the array
+  //     const product = latestCart.find(
+  //       (product) => product.id.toString() === productId
+  //     );
+
+  //     if (product) {
+  //       console.log("Product found:", product); // Log the product that was found
+  //       // Update the quantity
+  //       product.quantity = Number(newQuantity);
+  //       console.log("Updated product:", product); // Log the product after updating the quantity
+  //       // Save the updated array back to local storage
+  //       localStorage.setItem("cart", JSON.stringify(latestCart));
+  //       console.log("Updated cart:", latestCart); // Log the updated cart
+  //     } else {
+  //       console.log("Product not found"); // Log if the product was not found
+  //     }
+  //   }
+  // });
 }
-
-function displayProducts(product) {
-  const section = document.getElementById("cart__items");
-
-  const article = document.createElement("article");
-  article.classList.add("cart__item");
-  article.setAttribute("data-id", product.id);
-  article.setAttribute("data-color", product.colors);
-  section.appendChild(article);
-
-  const imgDiv = document.createElement("div");
-  imgDiv.classList.add("cart__item__img");
-  const img = document.createElement("img");
-  img.setAttribute("src", product.imageUrl);
-  img.setAttribute("alt", product.altTxt);
-  imgDiv.appendChild(img);
-  article.appendChild(imgDiv);
-
-  const cartItemContent = document.createElement("div");
-  cartItemContent.classList.add("cart__item__content");
-  article.appendChild(cartItemContent);
-
-  const cartDescription = document.createElement("div");
-  cartDescription.classList.add("cart__item__content__description");
-  cartItemContent.appendChild(cartDescription);
-
-  const productName = document.createElement("h2");
-  productName.innerHTML = product.name;
-  cartDescription.appendChild(productName);
-
-  const productColor = document.createElement("p");
-  productColor.innerHTML = product.colors;
-  cartDescription.appendChild(productColor);
-
-  const productPrice = document.createElement("p");
-  productPrice.innerHTML = "€" + product.price;
-  cartDescription.appendChild(productPrice);
-
-  const cartSettings = document.createElement("div");
-  cartSettings.classList.add("cart__item__content__settings");
-  cartItemContent.appendChild(cartSettings);
-
-  const cartQuantity = document.createElement("div");
-  cartQuantity.classList.add("cart__item__content__settings__quantity");
-  cartSettings.appendChild(cartQuantity);
-
-  const quantityP = document.createElement("p");
-  quantityP.innerHTML = "Quantity:";
-  cartQuantity.appendChild(quantityP);
-
-  const quantityInput = document.createElement("input");
-  quantityInput.setAttribute("type", "number");
-  quantityInput.setAttribute("name", "itemQuantity");
-  quantityInput.setAttribute("min", "1");
-  quantityInput.setAttribute("value", product.quantity); // set the value to product.quantity
-  quantityInput.setAttribute("max", "100");
-  quantityInput.classList.add("itemQuantity");
-  console.log("The product id as usual:", product.id); // Log the product ID
-  quantityInput.setAttribute("data-id", product.id);
-
-  cartQuantity.appendChild(quantityInput);
-
-  const divDelete = document.createElement("div");
-  divDelete.classList.add("cart__item__content__settings__delete");
-  cartSettings.appendChild(divDelete);
-
-  const deleteButton = document.createElement("p");
-  deleteButton.classList.add("cart__item__content__settings__delete__btn");
-  deleteButton.innerHTML = "Delete";
-  divDelete.appendChild(deleteButton);
-
-  // delete item from cart
-
-  deleteButton.addEventListener("click", function () {
-    const index = productsInLocalStorage.findIndex(
-      (item) => item.id === product.id && item.color === product.colors
-    );
-    productsInLocalStorage.splice(index, 1);
-    localStorage.setItem("cart", JSON.stringify(productsInLocalStorage));
-    article.remove();
-  });
-}
-
-// Update quantity in cart function
-
-// document.addEventListener("change", function (event) {
-//   const inputElement = event.target.closest(".itemQuantity");
-//   if (inputElement) {
-//     console.log("Quantity changed");
-//     const newQuantity = event.target.value; // The new quantity
-//     const productId = event.target.dataset.id;
-//     ("data-id"); // The id of the product
-
-//     console.log("Product ID:", productId); // Log the product ID
-
-//     // Retrieve the latest cart data from local storage
-//     let latestCart = JSON.parse(localStorage.getItem("cart"));
-
-//     console.log("Latest cart:", latestCart); // Log the latest cart
-
-//     // Find the product in the array
-//     const product = latestCart.find(
-//       (product) => product.id.toString() === productId
-//     );
-
-//     if (product) {
-//       console.log("Product found:", product); // Log the product that was found
-//       // Update the quantity
-//       product.quantity = Number(newQuantity);
-//       console.log("Updated product:", product); // Log the product after updating the quantity
-//       // Save the updated array back to local storage
-//       localStorage.setItem("cart", JSON.stringify(latestCart));
-//       console.log("Updated cart:", latestCart); // Log the updated cart
-//     } else {
-//       console.log("Product not found"); // Log if the product was not found
-//     }
-//   }
-// });
 
 // form validation
 
