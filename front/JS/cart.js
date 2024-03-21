@@ -3,7 +3,6 @@ let productsInLocalStorage = localStorage.getItem("cart");
 try {
   if (productsInLocalStorage) {
     productsInLocalStorage = JSON.parse(productsInLocalStorage);
-    console.log("Products from local storage:", productsInLocalStorage);
   }
 } catch (error) {
   console.error("Error parsing products from local storage:", error);
@@ -30,7 +29,7 @@ for (let i = 0; i < productsInLocalStorage.length; i++) {
           (color) => color === productsInLocalStorage[i].color
         );
         productData.quantity = productsInLocalStorage[i].quantity;
-        displayProducts(productData); // Call displayProducts with fetched product data
+        displayProducts(productData);
       })
       .catch((error) => {
         console.error(
@@ -94,7 +93,7 @@ for (let i = 0; i < productsInLocalStorage.length; i++) {
     cartQuantity.appendChild(quantityP);
 
     const quantityInput = document.createElement("input");
-    console.log("quantityInput", quantityInput);
+
     quantityInput.setAttribute("type", "number");
     quantityInput.setAttribute("name", "itemQuantity");
     quantityInput.setAttribute("min", "1");
@@ -131,9 +130,6 @@ for (let i = 0; i < productsInLocalStorage.length; i++) {
       const itemId = event.target.getAttribute("data-id");
 
       const newQuantity = event.target.value;
-      console.log("itemId:", itemId);
-      console.log("product.colors:", product.colors);
-      console.log("productsInLocalStorage:", productsInLocalStorage);
 
       const index = productsInLocalStorage.findIndex(
         (item) => item.id === itemId && item.color === product.colors[0]
