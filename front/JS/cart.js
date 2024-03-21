@@ -12,31 +12,33 @@ try {
 
 for (let i = 0; i < productsInLocalStorage.length; i++) {
   const product = productsInLocalStorage[i];
-  const productId = productsInLocalStorage[i].id;
-  const productColor = productsInLocalStorage[i].color;
-  const productQuantity = productsInLocalStorage[i].quantity;
+  if (product) {
+    const productId = productsInLocalStorage[i].id;
+    const productColor = productsInLocalStorage[i].color;
+    const productQuantity = productsInLocalStorage[i].quantity;
 
-  fetch(`http://localhost:3000/api/products/${product.id}`)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.json();
-    })
-    .then((productData) => {
-      // Filter productData.colors to only include the color from localStorage
-      productData.colors = productData.colors.filter(
-        (color) => color === productsInLocalStorage[i].color
-      );
-      productData.quantity = productsInLocalStorage[i].quantity;
-      displayProducts(productData); // Call displayProducts with fetched product data
-    })
-    .catch((error) => {
-      console.error(
-        "There has been a problem with your fetch operation:",
-        error
-      );
-    });
+    fetch(`http://localhost:3000/api/products/${product.id}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((productData) => {
+        // Filter productData.colors to only include the color from localStorage
+        productData.colors = productData.colors.filter(
+          (color) => color === productsInLocalStorage[i].color
+        );
+        productData.quantity = productsInLocalStorage[i].quantity;
+        displayProducts(productData); // Call displayProducts with fetched product data
+      })
+      .catch((error) => {
+        console.error(
+          "There has been a problem with your fetch operation:",
+          error
+        );
+      });
+  }
 }
 
 function displayProducts(product) {
