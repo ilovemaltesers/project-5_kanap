@@ -122,16 +122,17 @@ for (let i = 0; i < productsInLocalStorage.length; i++) {
     });
 
     // Update quantity in cart function
+
     quantityInput.addEventListener("change", function (event) {
-      const productId = event.target.getAttribute("data-id");
+      const itemId = event.target.getAttribute("data-id");
       const newQuantity = event.target.value;
 
-      const productIndex = productsInLocalStorage.findIndex(
-        (item) => item.id === productId
+      const index = productsInLocalStorage.findIndex(
+        (item) => item.id === itemId && item.color === product.colors
       );
 
-      if (productIndex !== -1) {
-        productsInLocalStorage[productIndex].quantity = newQuantity;
+      if (index !== -1) {
+        productsInLocalStorage[index].quantity = newQuantity;
         localStorage.setItem("cart", JSON.stringify(productsInLocalStorage));
       }
     });
