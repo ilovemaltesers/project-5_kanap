@@ -48,7 +48,8 @@ for (let i = 0; i < productsInLocalStorage.length; i++) {
 
     const article = document.createElement("article");
     article.classList.add("cart__item");
-    article.setAttribute("data-id", product.id);
+    article.setAttribute("data-id", product._id);
+
     article.setAttribute("data-color", product.colors);
     section.appendChild(article);
 
@@ -101,7 +102,6 @@ for (let i = 0; i < productsInLocalStorage.length; i++) {
     quantityInput.setAttribute("max", "100");
     quantityInput.classList.add("itemQuantity");
     quantityInput.setAttribute("data-id", product._id);
-    console.log("data-id", product._id);
 
     cartQuantity.appendChild(quantityInput);
 
