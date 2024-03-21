@@ -100,42 +100,6 @@ function displayProducts(product) {
 
   cartQuantity.appendChild(quantityInput);
 
-  // Update quantity in cart function
-
-  quantityInput.addEventListener("change", function (event) {
-    const inputElement = event.target.closest(".itemQuantity");
-    if (inputElement) {
-      console.log("Quantity changed");
-      const newQuantity = event.target.value; // The new quantity
-      const productId = event.target.dataset.id;
-      ("data-id"); // The id of the product
-
-      console.log("Product ID:", productId); // Log the product ID
-
-      // Retrieve the latest cart data from local storage
-      let latestCart = JSON.parse(localStorage.getItem("cart"));
-
-      console.log("Latest cart:", latestCart); // Log the latest cart
-
-      // Find the product in the array
-      const product = latestCart.find(
-        (product) => product.id.toString() === productId
-      );
-
-      if (product) {
-        console.log("Product found:", product); // Log the product that was found
-        // Update the quantity
-        product.quantity = Number(newQuantity);
-        console.log("Updated product:", product); // Log the product after updating the quantity
-        // Save the updated array back to local storage
-        localStorage.setItem("cart", JSON.stringify(latestCart));
-        console.log("Updated cart:", latestCart); // Log the updated cart
-      } else {
-        console.log("Product not found"); // Log if the product was not found
-      }
-    }
-  });
-
   const divDelete = document.createElement("div");
   divDelete.classList.add("cart__item__content__settings__delete");
   cartSettings.appendChild(divDelete);
