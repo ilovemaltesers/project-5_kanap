@@ -41,6 +41,9 @@ for (let i = 0; i < productsInLocalStorage.length; i++) {
   }
 
   function displayProducts(product) {
+    const productId = product.id;
+    const productQuantity = product.quantity;
+
     const section = document.getElementById("cart__items");
 
     const article = document.createElement("article");
@@ -90,14 +93,15 @@ for (let i = 0; i < productsInLocalStorage.length; i++) {
     cartQuantity.appendChild(quantityP);
 
     const quantityInput = document.createElement("input");
+    console.log("quantityInput", quantityInput);
     quantityInput.setAttribute("type", "number");
     quantityInput.setAttribute("name", "itemQuantity");
     quantityInput.setAttribute("min", "1");
     quantityInput.setAttribute("value", product.quantity); // set the value to product.quantity
     quantityInput.setAttribute("max", "100");
     quantityInput.classList.add("itemQuantity");
-    console.log("The product id as usual:", product.id); // Log the product ID
-    quantityInput.setAttribute("data-id", product.id);
+    quantityInput.setAttribute("data-id", product._id);
+    console.log("data-id", product._id);
 
     cartQuantity.appendChild(quantityInput);
 
