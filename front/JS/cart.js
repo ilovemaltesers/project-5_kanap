@@ -107,7 +107,7 @@ function displayProducts(product) {
     if (inputElement) {
       console.log("Quantity changed");
       const newQuantity = event.target.value; // The new quantity
-      const productId = event.target.dataset.product.id;
+      const productId = event.target.dataset.id;
       ("data-id"); // The id of the product
 
       console.log("Product ID:", productId); // Log the product ID
