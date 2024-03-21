@@ -120,43 +120,22 @@ for (let i = 0; i < productsInLocalStorage.length; i++) {
       localStorage.setItem("cart", JSON.stringify(productsInLocalStorage));
       article.remove();
     });
+
+    // Update quantity in cart function
+    quantityInput.addEventListener("change", function (event) {
+      const productId = event.target.getAttribute("data-id");
+      const newQuantity = event.target.value;
+
+      const productIndex = productsInLocalStorage.findIndex(
+        (item) => item.id === productId
+      );
+
+      if (productIndex !== -1) {
+        productsInLocalStorage[productIndex].quantity = newQuantity;
+        localStorage.setItem("cart", JSON.stringify(productsInLocalStorage));
+      }
+    });
   }
-
-  // Update quantity in cart function
-
-  //.addEventListener("change", function (event) {
-  //   const inputElement = event.target.closest(".itemQuantity");
-  //   if (inputElement) {
-  //     console.log("Quantity changed");
-  //     const newQuantity = event.target.value; // The new quantity
-  //     const productId = event.target.dataset.id;
-  //     ("data-id"); // The id of the product
-
-  //     console.log("Product ID:", productId); // Log the product ID
-
-  //     // Retrieve the latest cart data from local storage
-  //     let latestCart = JSON.parse(localStorage.getItem("cart"));
-
-  //     console.log("Latest cart:", latestCart); // Log the latest cart
-
-  //     // Find the product in the array
-  //     const product = latestCart.find(
-  //       (product) => product.id.toString() === productId
-  //     );
-
-  //     if (product) {
-  //       console.log("Product found:", product); // Log the product that was found
-  //       // Update the quantity
-  //       product.quantity = Number(newQuantity);
-  //       console.log("Updated product:", product); // Log the product after updating the quantity
-  //       // Save the updated array back to local storage
-  //       localStorage.setItem("cart", JSON.stringify(latestCart));
-  //       console.log("Updated cart:", latestCart); // Log the updated cart
-  //     } else {
-  //       console.log("Product not found"); // Log if the product was not found
-  //     }
-  //   }
-  // });
 }
 
 // form validation
