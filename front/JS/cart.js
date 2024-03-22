@@ -1,12 +1,8 @@
 let productsInLocalStorage = localStorage.getItem("cart");
-
-try {
-  if (productsInLocalStorage) {
-    productsInLocalStorage = JSON.parse(productsInLocalStorage);
-  }
-} catch (error) {
-  console.error("Error parsing products from local storage:", error);
-  productsInLocalStorage = null;
+if (!productsInLocalStorage) {
+  productsInLocalStorage = [];
+} else {
+  productsInLocalStorage = JSON.parse(productsInLocalStorage);
 }
 
 for (let i = 0; i < productsInLocalStorage.length; i++) {
@@ -130,6 +126,11 @@ for (let i = 0; i < productsInLocalStorage.length; i++) {
       const itemId = event.target.getAttribute("data-id");
 
       const newQuantity = event.target.value;
+
+      if (newQuantity > 100) {
+        alert("Max quantity of items exceeded!");
+        return;
+      }
 
       const index = productsInLocalStorage.findIndex(
         (item) => item.id === itemId && item.color === product.colors[0]
