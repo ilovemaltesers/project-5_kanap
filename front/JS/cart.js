@@ -120,6 +120,14 @@ for (let i = 0; i < productsInLocalStorage.length; i++) {
       article.remove();
     });
 
+    // total number of items displayed in cart
+
+    document.getElementById("totalQuantity").innerHTML =
+      productsInLocalStorage.reduce(
+        (acc, item) => acc + Number(item.quantity),
+        0
+      );
+
     // Update quantity in cart function
 
     quantityInput.addEventListener("change", function (event) {
@@ -137,6 +145,11 @@ for (let i = 0; i < productsInLocalStorage.length; i++) {
       );
       console.log("index", index);
 
+      // update the total quantity displayed in the cart
+
+      document.getElementById("totalQuantity").innerHTML =
+        productsInLocalStorage.reduce((acc, item) => acc + item.quantity, 0);
+
       if (index !== -1) {
         productsInLocalStorage[index].quantity = newQuantity;
         localStorage.setItem("cart", JSON.stringify(productsInLocalStorage));
@@ -144,11 +157,6 @@ for (let i = 0; i < productsInLocalStorage.length; i++) {
     });
   }
 }
-
-// total number of items displayed in cart
-
-document.getElementById("totalQuantity").innerHTML =
-  productsInLocalStorage.reduce((acc, item) => acc + item.quantity, 0);
 
 // form validation
 
