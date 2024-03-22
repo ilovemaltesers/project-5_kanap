@@ -120,15 +120,24 @@ for (let i = 0; i < productsInLocalStorage.length; i++) {
       article.remove();
     });
 
-    // total number of items displayed in cart
+    // function to calculate the total quantity of articles in the cart and the total price
 
-    document.getElementById("totalQuantity").innerHTML =
-      productsInLocalStorage.reduce(
-        (acc, item) => acc + Number(item.quantity),
-        0
-      );
+    function calculateTotal() {
+      let totalQuantity = 0;
+      let totalPrice = 0;
 
-    // Update quantity in cart function
+      for (let i = 0; i < productsInLocalStorage.length; i++) {
+        totalQuantity += parseInt(productsInLocalStorage[i].quantity);
+        totalPrice +=
+          parseInt(productsInLocalStorage[i].quantity) * product.price;
+      }
+
+      document.getElementById("totalQuantity").innerHTML = totalQuantity;
+      document.getElementById("totalPrice").innerHTML = totalPrice;
+    }
+    calculateTotal();
+
+    // Update quantity in local storage function
 
     quantityInput.addEventListener("change", function (event) {
       const itemId = event.target.getAttribute("data-id");
@@ -144,11 +153,6 @@ for (let i = 0; i < productsInLocalStorage.length; i++) {
         (item) => item.id === itemId && item.color === product.colors[0]
       );
       console.log("index", index);
-
-      // update the total quantity displayed in the cart
-
-      document.getElementById("totalQuantity").innerHTML =
-        productsInLocalStorage.reduce((acc, item) => acc + item.quantity, 0);
 
       if (index !== -1) {
         productsInLocalStorage[index].quantity = newQuantity;
