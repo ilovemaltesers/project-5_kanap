@@ -149,7 +149,7 @@ for (let i = 0; i < productsInLocalStorage.length; i++) {
 
 let ExpFirstName = /^[a-zA-Z]{2,20}$/;
 let ExpLastName = /^[a-zA-Z]{2,20}$/;
-let ExpAddress = /^[a-zA-Z0-9\s.,#-]{1,30}$/;
+let ExpAddress = /^[a-zA-Z0-9\s.,#-]{1,40}$/;
 
 let ExpCity = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/;
 let ExpEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
