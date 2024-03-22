@@ -303,13 +303,12 @@ orderButton.addEventListener("click", function (e) {
           color: product.color,
           quantity: product.quantity,
         };
+        const orderObject = {
+          contact: contact,
+          products: productsOrdered,
+        };
+        console.log;
       });
-      console.log("Products Ordered:", productsOrdered);
-
-      const order = {
-        contact: contact,
-        products: productsOrdered,
-      };
 
       const url = "http://localhost:3000/api/products/order";
 
@@ -322,6 +321,7 @@ orderButton.addEventListener("click", function (e) {
       })
         .then((response) => response.json())
         .then((data) => console.log("Your order has been placed!:", data))
+
         .catch((error) => console.error("Error:", error));
     }
     placeOrder(finalProductsInLocalStorage);
