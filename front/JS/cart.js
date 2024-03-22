@@ -145,6 +145,11 @@ for (let i = 0; i < productsInLocalStorage.length; i++) {
   }
 }
 
+// total number of items displayed in cart
+
+document.getElementById("totalQuantity").innerHTML =
+  productsInLocalStorage.reduce((acc, item) => acc + item.quantity, 0);
+
 // form validation
 
 let ExpFirstName = /^[a-zA-Z]{2,20}$/;
