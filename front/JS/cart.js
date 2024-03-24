@@ -260,62 +260,56 @@ email.addEventListener("input", function (e) {
 /// form submit
 
 const orderButton = document.getElementById("order");
+const form = document.querySelector(".cart__order__form");
 
-orderButton.addEventListener("click", function (e) {
-  e.preventDefault();
-
-  const firstName = document.getElementById("firstName");
-  const lastName = document.getElementById("lastName");
-  const address = document.getElementById("address");
-  const city = document.getElementById("city");
-  const email = document.getElementById("email");
-
-  if (
-    firstName.value.length === 0 ||
-    lastName.value.length === 0 ||
-    address.value.length === 0 ||
-    city.value.length === 0 ||
-    email.value.length === 0
-  ) {
-    alert("Please fill in all the fields");
-    console.log("Please fill in all the fields");
-  } else {
-    console.log("Form submitted");
+function placeOrder() {
+  orderButton.addEventListener("click", function (e) {
+    const firstName = document.getElementById("firstName").value;
+    const lastName = document.getElementById("lastName").value;
+    const address = document.getElementById("address").value;
+    const city = document.getElementById("city").value;
+    const email = document.getElementById("email").value;
 
     const contact = {
-      firstName: firstName.value,
-      lastName: lastName.value,
-      address: address.value,
-      city: city.value,
-      email: email.value,
+      firstName: firstName,
+      lastName: lastName,
+      address: address,
+      city: city,
+      email: email,
     };
-    console.log("Contact:", contact);
 
     const finalProductsInLocalStorage = JSON.parse(
       localStorage.getItem("cart")
     );
-    console.log(
-      "Final Products in Local Storage:",
-      finalProductsInLocalStorage
-    );
+    const url = "http://localhost:3000/api/products/order";
 
-    // Place and post order
-    function placeOrder(finalProductsInLocalStorage) {
-      const productsOrdered = finalProductsInLocalStorage.map((product) => {
-        return {
-          _id: product.id,
-          color: product.color,
-          quantity: product.quantity,
-        };
-      });
-
-      const orderObject = {
-        contact: contact,
-        products: productsOrdered,
+    const productsOrdered = finalProductsInLocalStorage.map((product) => {
+      return {
+        _id: product.id,
+        color: product.color,
+        quantity: product.quantity,
       };
-      console.log("Order Object:", orderObject);
+    });
 
-      const url = "http://localhost:3000/api/products/order";
+    const orderObject = {
+      contact: contact,
+      products: productsOrdered,
+    };
+
+    if (
+      firstName.length === 0 ||
+      lastName.length === 0 ||
+      address.length === 0 ||
+      city.length === 0 ||
+      email.length === 0
+    ) {
+      e.preventDefault();
+      alert("Please fill in all the fields");
+      console.log("Please fill in all the fields");
+    } else {
+      e.preventDefault();
+      console.log("Form submitted");
+      console.log("contact", contact);
 
       fetch(url, {
         method: "POST",
@@ -328,6 +322,7 @@ orderButton.addEventListener("click", function (e) {
         .then((data) => console.log("Your order has been placed!:", data))
         .catch((error) => console.error("Error:", error));
     }
-    placeOrder(finalProductsInLocalStorage);
-  }
-});
+  });
+}
+
+placeOrder();
