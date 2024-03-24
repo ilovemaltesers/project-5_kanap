@@ -260,9 +260,16 @@ email.addEventListener("input", function (e) {
 /// form submit
 
 const orderButton = document.getElementById("order");
-const form = document.querySelector(".cart__order__form");
 
 orderButton.addEventListener("click", function (e) {
+  e.preventDefault();
+
+  const firstName = document.getElementById("firstName");
+  const lastName = document.getElementById("lastName");
+  const address = document.getElementById("address");
+  const city = document.getElementById("city");
+  const email = document.getElementById("email");
+
   if (
     firstName.value.length === 0 ||
     lastName.value.length === 0 ||
@@ -270,19 +277,17 @@ orderButton.addEventListener("click", function (e) {
     city.value.length === 0 ||
     email.value.length === 0
   ) {
-    e.preventDefault();
     alert("Please fill in all the fields");
     console.log("Please fill in all the fields");
   } else {
-    e.preventDefault();
     console.log("Form submitted");
 
     const contact = {
-      firstName: document.getElementById("firstName").value,
-      lastName: document.getElementById("lastName").value,
-      address: document.getElementById("address").value,
-      city: document.getElementById("city").value,
-      email: document.getElementById("email").value,
+      firstName: firstName.value,
+      lastName: lastName.value,
+      address: address.value,
+      city: city.value,
+      email: email.value,
     };
     console.log("Contact:", contact);
 
@@ -295,7 +300,6 @@ orderButton.addEventListener("click", function (e) {
     );
 
     // Place and post order
-
     function placeOrder(finalProductsInLocalStorage) {
       const productsOrdered = finalProductsInLocalStorage.map((product) => {
         return {
@@ -303,12 +307,13 @@ orderButton.addEventListener("click", function (e) {
           color: product.color,
           quantity: product.quantity,
         };
-        const orderObject = {
-          contact: contact,
-          products: productsOrdered,
-        };
-        console.log;
       });
+
+      const orderObject = {
+        contact: contact,
+        products: productsOrdered,
+      };
+      console.log("Order Object:", orderObject);
 
       const url = "http://localhost:3000/api/products/order";
 
@@ -317,11 +322,10 @@ orderButton.addEventListener("click", function (e) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(order),
+        body: JSON.stringify(orderObject),
       })
         .then((response) => response.json())
         .then((data) => console.log("Your order has been placed!:", data))
-
         .catch((error) => console.error("Error:", error));
     }
     placeOrder(finalProductsInLocalStorage);
