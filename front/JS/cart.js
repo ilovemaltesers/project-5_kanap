@@ -284,7 +284,6 @@ function placeOrder() {
     }
 
     const finalProductsInLocalStorage = JSON.parse(cart);
-    const url = "http://localhost:3000/api/products/order";
 
     const productsOrdered = finalProductsInLocalStorage.map((product) => {
       return {
@@ -323,7 +322,7 @@ function placeOrder() {
         },
       };
 
-      fetch(url, options)
+      fetch("http://localhost:3000/api/products/order", options)
         .then((data) => {
           if (!data.ok) {
             throw Error(data.status);
@@ -332,7 +331,7 @@ function placeOrder() {
         })
         .then((update) => {
           console.log(update);
-          productsInLocalStorage.clear();
+          localStorage.removeItem("cart");
           window.location.href = `confirmation.html?id=${update.orderId}`;
         })
         .catch((error) => {
