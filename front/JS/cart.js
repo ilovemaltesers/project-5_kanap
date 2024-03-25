@@ -261,10 +261,6 @@ email.addEventListener("input", function (e) {
 
 function placeOrder() {
   const orderButton = document.getElementById("order");
-  if (!orderButton) {
-    console.error('No element with id "order"');
-    return;
-  }
 
   orderButton.addEventListener("click", function (e) {
     const firstName = document.getElementById("firstName").value;
@@ -317,6 +313,7 @@ function placeOrder() {
         contact: contact,
         products: productsOrdered,
       };
+      console.log("orderObject", orderObject);
 
       const options = {
         method: "POST",
@@ -335,7 +332,7 @@ function placeOrder() {
         })
         .then((update) => {
           console.log(update);
-          localStorage.clear();
+          productsInLocalStorage.clear();
           window.location.href = `confirmation.html?id=${update.orderId}`;
         })
         .catch((error) => {
