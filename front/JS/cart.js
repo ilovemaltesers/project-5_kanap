@@ -259,10 +259,13 @@ email.addEventListener("input", function (e) {
 
 /// form submit
 
-const orderButton = document.getElementById("order");
-const form = document.querySelector(".cart__order__form");
-
 function placeOrder() {
+  const orderButton = document.getElementById("order");
+  if (!orderButton) {
+    console.error('No element with id "order"');
+    return;
+  }
+
   orderButton.addEventListener("click", function (e) {
     const firstName = document.getElementById("firstName").value;
     const lastName = document.getElementById("lastName").value;
@@ -278,9 +281,13 @@ function placeOrder() {
       email: email,
     };
 
-    const finalProductsInLocalStorage = JSON.parse(
-      localStorage.getItem("cart")
-    );
+    const cart = localStorage.getItem("cart");
+    if (!cart) {
+      console.error('No "cart" item in local storage');
+      return;
+    }
+
+    const finalProductsInLocalStorage = JSON.parse(cart);
     const url = "http://localhost:3000/api/products/order";
 
     const productsOrdered = finalProductsInLocalStorage.map((product) => {
@@ -290,11 +297,6 @@ function placeOrder() {
         quantity: product.quantity,
       };
     });
-
-    const orderObject = {
-      contact: contact,
-      products: productsOrdered,
-    };
 
     if (
       firstName.length === 0 ||
@@ -311,16 +313,34 @@ function placeOrder() {
       console.log("Form submitted");
       console.log("contact", contact);
 
-      fetch(url, {
+      const orderObject = {
+        contact: contact,
+        products: productsOrdered,
+      };
+
+      const options = {
         method: "POST",
+        body: JSON.stringify(orderObject),
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(orderObject),
-      })
-        .then((response) => response.json())
-        .then((data) => console.log("Your order has been placed!:", data))
-        .catch((error) => console.error("Error:", error));
+      };
+
+      fetch(url, options)
+        .then((data) => {
+          if (!data.ok) {
+            throw Error(data.status);
+          }
+          return data.json();
+        })
+        .then((update) => {
+          console.log(update);
+          localStorage.clear();
+          window.location.href = `confirmation.html?id=${update.orderId}`;
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
     }
   });
 }
