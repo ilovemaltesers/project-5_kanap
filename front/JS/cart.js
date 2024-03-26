@@ -286,11 +286,7 @@ function placeOrder() {
     const finalProductsInLocalStorage = JSON.parse(cart);
 
     const productsOrdered = finalProductsInLocalStorage.map((product) => {
-      return {
-        _id: product.id,
-        color: product.color,
-        quantity: product.quantity,
-      };
+      return product.id;
     });
 
     if (
@@ -332,7 +328,7 @@ function placeOrder() {
         .then((update) => {
           console.log(update);
           localStorage.removeItem("cart");
-          window.location.href = `confirmation.html?id=${update.orderId}`;
+          // window.location.href = `confirmation.html?id=${update.orderId}`;
         })
         .catch((error) => {
           console.error("Error:", error);
