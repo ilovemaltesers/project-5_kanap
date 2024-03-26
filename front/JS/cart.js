@@ -310,9 +310,7 @@ function placeOrder() {
 
       const orderObject = {
         contact: contact,
-        products: Array.isArray(productsOrdered)
-          ? productsOrdered
-          : [productsOrdered],
+        products: productsOrdered,
       };
       console.log("orderObject", orderObject);
 
