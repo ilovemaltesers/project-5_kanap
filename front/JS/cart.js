@@ -327,7 +327,11 @@ function placeOrder() {
         })
         .then((update) => {
           console.log(update);
-          localStorage.removeItem("cart");
+          console.log(
+            "Thank you for your order! ✨ Your order ID is: ",
+            update.orderId
+          );
+          // localStorage.removeItem("cart");
           // window.location.href = `confirmation.html?id=${update.orderId}`;
         })
         .catch((error) => {
