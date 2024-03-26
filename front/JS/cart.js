@@ -287,7 +287,7 @@ function placeOrder() {
 
     const productsOrdered = finalProductsInLocalStorage.map((product) => {
       return {
-        _id: product.id,
+        _id: String(product.id),
         color: product.color,
         quantity: product.quantity,
       };
@@ -309,9 +309,16 @@ function placeOrder() {
       console.log("contact", contact);
 
       const orderObject = {
-        contact: contact,
-        products: productsOrdered,
+        contact: {
+          firstName: firstName,
+          lastName: lastName,
+          address: address,
+          city: city,
+          email: email,
+        },
+        products: JSON.stringify(productsOrdered),
       };
+
       console.log("orderObject", orderObject);
 
       const options = {
@@ -321,6 +328,7 @@ function placeOrder() {
           "Content-Type": "application/json",
         },
       };
+      console.log("options", options);
 
       fetch("http://localhost:3000/api/products/order", options)
         .then((data) => {
