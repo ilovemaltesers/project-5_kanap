@@ -1,5 +1,6 @@
 // Get the product id from the URL
 const urlParams = new URLSearchParams(window.location.search);
+
 const id = urlParams.get("id");
 
 // Function to fetch product details from the API
@@ -94,6 +95,8 @@ window.onload = function () {
   // Check conditions whenever the colour or quantity changes
   colorInput.onchange = checkConditions;
   quantityInput.onchange = checkConditions;
+
+  // Add the product to the cart when the button is clicked and show an alert to confirm product has been added to the cart
 
   addToCartButton.onclick = function () {
     if (!addToCartButton.disabled) {
