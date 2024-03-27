@@ -1,5 +1,9 @@
+// Objective: Fetch the products from the API and display them on the home page
+
 const apiUrl = "http://localhost:3000/api/products";
 let productContainer = document.getElementById("items");
+
+// Fetch the products from the API
 
 const fetchProducts = async () => {
   try {
@@ -11,6 +15,8 @@ const fetchProducts = async () => {
     console.error("Error", error);
   }
 };
+
+// Display the products on the home page
 
 function displayProducts(products) {
   products.forEach((product) => {
