@@ -1,9 +1,11 @@
+//  retrieve the products from the local storage
 let productsInLocalStorage = localStorage.getItem("cart");
 if (!productsInLocalStorage) {
   productsInLocalStorage = [];
 } else {
   productsInLocalStorage = JSON.parse(productsInLocalStorage);
 }
+// loop through the products in the local storage to isolate the product id, color and quantity
 
 for (let i = 0; i < productsInLocalStorage.length; i++) {
   const product = productsInLocalStorage[i];
@@ -11,6 +13,8 @@ for (let i = 0; i < productsInLocalStorage.length; i++) {
     const productId = product.id;
     const productColor = product.color;
     const productQuantity = product.quantity;
+
+    // fetch the product details from the API
 
     fetch(`http://localhost:3000/api/products/${product.id}`)
       .then((response) => {
@@ -34,6 +38,7 @@ for (let i = 0; i < productsInLocalStorage.length; i++) {
         );
       });
   }
+  // display the products in the cart
 
   function displayProducts(product) {
     const productId = product.id;
@@ -162,7 +167,7 @@ for (let i = 0; i < productsInLocalStorage.length; i++) {
   }
 }
 
-// form validation
+// form validation Regex
 
 let ExpFirstName = /^[a-zA-Z]{2,20}$/;
 let ExpLastName = /^[a-zA-Z]{2,20}$/;
@@ -258,9 +263,12 @@ email.addEventListener("input", function (e) {
 });
 
 /// form submit
+// function to place an order
 
 function placeOrder() {
   const orderButton = document.getElementById("order");
+
+  // add an event listener to the order button
 
   orderButton.addEventListener("click", function (e) {
     const firstName = document.getElementById("firstName").value;
@@ -268,6 +276,8 @@ function placeOrder() {
     const address = document.getElementById("address").value;
     const city = document.getElementById("city").value;
     const email = document.getElementById("email").value;
+
+    // create a contact object
 
     const contact = {
       firstName: firstName,
@@ -277,17 +287,25 @@ function placeOrder() {
       email: email,
     };
 
+    // retrieve the products from the local storage and if there are no products in the cart, display an error message
+
     const cart = localStorage.getItem("cart");
     if (!cart) {
       console.error('No "cart" item in local storage');
       return;
     }
 
+    // parse the products in the cart
+
     const finalProductsInLocalStorage = JSON.parse(cart);
+
+    // create an array of product ids
 
     const productsOrdered = finalProductsInLocalStorage.map((product) => {
       return product.id;
     });
+
+    // if any of the fields are empty, display an error message
 
     if (
       firstName.length === 0 ||
@@ -304,11 +322,15 @@ function placeOrder() {
       console.log("Form submitted");
       console.log("contact", contact);
 
+      // create an order object containing the contact object and the products ordered
+
       const orderObject = {
         contact: contact,
         products: productsOrdered,
       };
       console.log("orderObject", orderObject);
+
+      // post the order object to the API
 
       const options = {
         method: "POST",
@@ -332,6 +354,8 @@ function placeOrder() {
             update.orderId
           );
           localStorage.removeItem("cart");
+
+          // redirect to the confirmation page
           window.location.href = `/front/html/confirmation.html?id=${update.orderId}`;
         })
         .catch((error) => {
