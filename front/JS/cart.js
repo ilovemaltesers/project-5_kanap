@@ -332,7 +332,7 @@ function placeOrder() {
             update.orderId
           );
           localStorage.removeItem("cart");
-          // window.location.href = `confirmation.html?id=${update.orderId}`;
+          window.location.href = `/front/html/confirmation.html?id=${update.orderId}`;
         })
         .catch((error) => {
           console.error("Error:", error);
