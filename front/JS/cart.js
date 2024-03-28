@@ -349,10 +349,7 @@ function placeOrder() {
         })
         .then((update) => {
           console.log(update);
-          console.log(
-            "Thank you for your order! ✨ Your order ID is: ",
-            update.orderId
-          );
+          alert("✨Thank you for your order!✨");
           localStorage.removeItem("cart");
 
           // redirect to the confirmation page
